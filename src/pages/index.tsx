@@ -4,7 +4,7 @@ import { Button } from '@mantine/core';
 export default function Demo() {
   return (
     <Link href="/hello" passHref>
-      <Button component="a">Next link button</Button>
+      <Button component="a">Next number</Button>
     </Link>
   );
 }
