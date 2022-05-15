@@ -30,11 +30,19 @@
     ]
   },
   "overrides": [
+    // Configuration for TypeScript files 
     {
       "files": "**/*.+(ts|tsx)",
       "parser": "@typescript-eslint/parser",
       "plugins": ["@typescript-eslint/eslint-plugin"],
-      "extends": ["plugin:@typescript-eslint/recommended", "prettier"],
+      "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "prettier",
+        "airbnb-typescript"
+      ],
+      "parserOptions": {
+        "project": "./tsconfig.json"
+      },
       "rules": {
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
