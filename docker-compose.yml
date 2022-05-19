@@ -1,3 +1,4 @@
+#docker compose maa yo garde (declarative)
 version: "3.8"
 services:
   postgresdb:
