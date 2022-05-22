@@ -30,7 +30,7 @@
     ]
   },
   "overrides": [
-    // Configuration for TypeScript files 
+    // Configuration for TypeScript files
     {
       "files": "**/*.+(ts|tsx)",
       "parser": "@typescript-eslint/parser",
@@ -49,14 +49,7 @@
         "no-use-before-define": [0],
         "@typescript-eslint/no-use-before-define": [1],
         "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/no-var-requires": "off",
-        "@typescript-eslint/quotes": [
-          2,
-          "backtick",
-          {
-            "avoidEscape": true
-          }
-        ]
+        "@typescript-eslint/no-var-requires": "off"
       }
     }
   ]

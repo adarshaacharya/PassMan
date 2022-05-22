@@ -33,3 +33,12 @@ User ...
 Vault
 
 User stroy :
+
+
+
+#Prisma
+Because Prisma Client is tailored to your own schema, you need to update it every time your Prisma schema file is changing by running the following command:
+
+create database + migration
+yarn prisma migrate dev
+

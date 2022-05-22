@@ -1,10 +1,7 @@
 type NameToType = {
   readonly ENV: 'production' | 'staging' | 'development' | 'test';
-  readonly NEXTAUTH_URL: string;
   readonly NODE_ENV: 'production' | 'development';
-  readonly POSTGRES_USER: string;
-  readonly POSTGRES_PASSWORD: string;
-  readonly POSTGRES_DB: string;
+  readonly NEXTAUTH_URL: string;
   readonly DATABASE_URL: string;
   readonly GITHUB_SECRET: string;
   readonly GITHUB_ID: string;
