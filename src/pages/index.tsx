@@ -1,30 +1,17 @@
-import { signIn, signOut, getSession } from 'next-auth/react';
 import { Button } from '@chakra-ui/react';
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
-import Image from 'next/image';
+import { GetServerSidePropsContext } from 'next';
+import { getSession, signIn } from 'next-auth/react';
 import Link from 'next/link';
 
-const Home = ({
-  session,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const user = session?.user;
-
-  if (user) {
-    return (
-      <>
-        Signed in as {user.name} <br />
-        <Image src={String(user.image)} alt="mine" width={200} height={200} />
-        <Button colorScheme="red" type="button" onClick={() => signOut()}>
-          Sign out
-        </Button>
-      </>
-    );
-  }
-
+const Home = () => {
   return (
     <>
       Not signed in <br />
-      <Button colorScheme="blue" type="button" onClick={() => signIn('github')}>
+      <Button
+        colorScheme="blue"
+        type="button"
+        onClick={() => signIn('github', { callbackUrl: '/dashboard' })}
+      >
         Sign in
       </Button>
       <Link href={'/dashboard'}>Dashboard</Link>
@@ -34,6 +21,16 @@ const Home = ({
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getSession(context);
+
+  if (session) {
+    return {
+      redirect: {
+        destination: '/dashboard',
+        permanent: false,
+      },
+    };
+  }
+
   return {
     props: {
       session,
