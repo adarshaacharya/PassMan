@@ -4,6 +4,9 @@ import NProgress from 'nprogress';
 import { Router } from 'next/router';
 import { SessionProvider } from 'next-auth/react';
 import { ChakraProvider } from '@chakra-ui/react';
+import customTheme from '@/theme';
+
+import 'src/styles/global.css';
 import 'src/styles/nprogress.css';
 
 export default function App(props: AppProps) {
@@ -26,7 +29,7 @@ export default function App(props: AppProps) {
 
   return (
     <SessionProvider session={pageProps.session}>
-      <ChakraProvider>
+      <ChakraProvider theme={customTheme}>
         <Component {...pageProps} />
       </ChakraProvider>
     </SessionProvider>
