@@ -6,6 +6,7 @@ import {
   Button,
   Flex,
   Heading,
+  Icon,
   SimpleGrid,
   Stack,
   Text,
@@ -13,38 +14,41 @@ import {
 import { GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/react';
 import * as React from 'react';
-import { MdNavigateNext } from 'react-icons/md';
+import {
+  MdNavigateNext,
+  MdOutlineBusinessCenter,
+  MdPersonOutline,
+} from 'react-icons/md';
 
 const accountSelectCards = [
   {
     title: AccountType.PERSONAL,
     description: 'You can use this account to store your personal information.',
     isReleased: true,
+    icon: MdPersonOutline,
   },
   {
     title: AccountType.BUSINESS,
     description:
       'You can use this account to store your passwords and manage your employees',
     isReleased: false,
+    icon: MdOutlineBusinessCenter,
   },
 ];
 
 type Props = {
-  title: AccountType;
-  description: string;
-  isReleased?: boolean;
+  details: typeof accountSelectCards[number];
   selectedAccountType: AccountType;
   handleClick: (accountType: AccountType) => void;
 };
 
 function AccountSelectBox({
-  title,
-  description,
-  isReleased = true,
+  details,
   selectedAccountType,
   handleClick,
   ...rest
 }: Props) {
+  const { title, description, isReleased, icon } = details;
   const isCardSelected = selectedAccountType === title;
 
   return (
@@ -81,7 +85,8 @@ function AccountSelectBox({
           Not released
         </Badge>
       )}
-      <Heading fontSize="3xl" color="gray.800">
+      <Icon as={icon} w={20} h={20} color="gray.700" />
+      <Heading fontSize="3xl" color="gray.700">
         {title}
       </Heading>
       <Text mt={8} color="gray.700" fontSize="2xl">
@@ -117,12 +122,10 @@ function Dashboard() {
         Choose Account Type
       </Heading>
       <SimpleGrid spacing={8} mt={8} columns={{ base: 1, md: 2 }}>
-        {accountSelectCards.map((card, index) => (
+        {accountSelectCards.map((cardDetails, index) => (
           <AccountSelectBox
             key={index}
-            title={card.title}
-            description={card.description}
-            isReleased={card.isReleased}
+            details={cardDetails}
             handleClick={handleAccountCardClick}
             selectedAccountType={selectedAccountType}
           />
