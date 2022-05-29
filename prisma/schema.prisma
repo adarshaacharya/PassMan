@@ -37,13 +37,16 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String       @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?      @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
+  // customized from here
+  vault         Vault?
+  crendetials   Credential[]
 }
 
 model VerificationToken {
@@ -52,4 +55,35 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Vault {
+  id          String       @id @default(cuid())
+  catgory     Category
+  createdAt   DateTime     @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime
+  key         String // 🔑
+  credentials Credential[]
+  owner       User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId     String       @unique
+}
+
+model Credential {
+  id          String   @id @default(cuid())
+  email       String?
+  username    String?
+  website     String
+  description String
+  password    String
+  createdAt   DateTime @default(now()) @db.Timestamp(6)
+  updatedAt   DateTime @updatedAt
+  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId     String
+  vault       Vault    @relation(fields: [vaultId], references: [id], onDelete: Cascade)
+  vaultId     String
+}
+
+enum Category {
+  PERSONAL
+  BUSINESS
 }
