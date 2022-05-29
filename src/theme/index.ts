@@ -16,8 +16,8 @@ const colors = {
 };
 
 const fonts = {
-  //   heading: 'Montserrat, sans-serif',
-  //   body: 'Montserrat, sans-serif',
+  heading: `Montserrat, ${theme.fonts.heading}`,
+  body: `Inter, ${theme.fonts.body}`,
 };
 
 const customTheme = extendTheme({

@@ -1,3 +1,4 @@
+import SignOut from '@/components/SignOut';
 import { AccountType } from '@/enums';
 import {
   Badge,
@@ -12,6 +13,7 @@ import {
 import { GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/react';
 import * as React from 'react';
+import { MdNavigateNext } from 'react-icons/md';
 
 const accountSelectCards = [
   {
@@ -82,7 +84,7 @@ function AccountSelectBox({
       <Heading fontSize="3xl" color="gray.800">
         {title}
       </Heading>
-      <Text mt={8} color="gray.700">
+      <Text mt={8} color="gray.700" fontSize="2xl">
         {description}
       </Text>
     </Box>
@@ -110,6 +112,7 @@ function Dashboard() {
       justifyContent="center"
       shouldWrapChildren
     >
+      <SignOut />
       <Heading as="h1" size="2xl" color="gray.700">
         Choose Account Type
       </Heading>
@@ -130,7 +133,7 @@ function Dashboard() {
         <Button
           size="lg"
           bg="primary.600"
-          color="white"
+          color="whiteAlpha.900"
           fontSize="xl"
           px={24}
           py={8}
@@ -139,6 +142,7 @@ function Dashboard() {
           _hover={{
             bg: 'primary.500',
           }}
+          rightIcon={<MdNavigateNext />}
         >
           Next
         </Button>

@@ -44,7 +44,13 @@ const Home = () => {
             >
               PassMan
             </Heading>
-            <Heading as="h2" size="lg" opacity="0.7" mt="3" lineHeight="1.5">
+            <Heading
+              as="h2"
+              fontSize="3xl"
+              opacity="0.7"
+              mt="3"
+              lineHeight="1.5"
+            >
               You were not born to remember passwords.
             </Heading>
             <Text fontSize="xl" mt="2" color="gray.600">
