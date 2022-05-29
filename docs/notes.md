@@ -32,6 +32,17 @@ User ...
 
 Vault
 
+```prisma
+model Vault {
+  id          String @id @default(cuid())
+  name        String
+  description String
+  ownerId     String
+  owner       User   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  members     User[]
+  items       Item[]
+}
+```
 User stroy :
 
 

@@ -1,5 +1,5 @@
 import SignOut from '@/components/SignOut';
-import { AccountType } from '@/enums';
+import { Vault } from '@/enums';
 import {
   Badge,
   Box,
@@ -22,15 +22,15 @@ import {
 
 const accountSelectCards = [
   {
-    title: AccountType.PERSONAL,
-    description: 'You can use this account to store your personal information.',
+    title: Vault.PERSONAL,
+    description: 'Store your individual credentials of your home or office.',
     isReleased: true,
     icon: MdPersonOutline,
   },
   {
-    title: AccountType.BUSINESS,
+    title: Vault.BUSINESS,
     description:
-      'You can use this account to store your passwords and manage your employees',
+      'Store credentials of your organization. Create user groups and share it with your teams.',
     isReleased: false,
     icon: MdOutlineBusinessCenter,
   },
@@ -38,18 +38,18 @@ const accountSelectCards = [
 
 type Props = {
   details: typeof accountSelectCards[number];
-  selectedAccountType: AccountType;
-  handleClick: (accountType: AccountType) => void;
+  selectedVault: Vault;
+  handleClick: (Vault: Vault) => void;
 };
 
 function AccountSelectBox({
   details,
-  selectedAccountType,
+  selectedVault,
   handleClick,
   ...rest
 }: Props) {
   const { title, description, isReleased, icon } = details;
-  const isCardSelected = selectedAccountType === title;
+  const isCardSelected = selectedVault === title;
 
   return (
     <Box
@@ -97,16 +97,14 @@ function AccountSelectBox({
 }
 
 function Dashboard() {
-  const [selectedAccountType, setSelectedAccountType] =
-    React.useState<AccountType>(AccountType.PERSONAL);
-
-  const handleAccountCardClick = React.useCallback(
-    (accountType: AccountType) => {
-      setSelectedAccountType(accountType);
-      console.log('handleAccountCardClick', accountType);
-    },
-    [],
+  const [selectedVault, setSelectedVault] = React.useState<Vault>(
+    Vault.PERSONAL,
   );
+
+  const handleAccountCardClick = React.useCallback((vault: Vault) => {
+    setSelectedVault(vault);
+    console.log('handleAccountCardClick', vault);
+  }, []);
 
   return (
     //  From a usage standpoint, we don't recommend adding custom margins to the children of HStack, VStack or Stack.
@@ -119,7 +117,7 @@ function Dashboard() {
     >
       <SignOut />
       <Heading as="h1" size="2xl" color="gray.700">
-        Choose Account Type
+        Choose Vault Type
       </Heading>
       <SimpleGrid spacing={8} mt={8} columns={{ base: 1, md: 2 }}>
         {accountSelectCards.map((cardDetails, index) => (
@@ -127,7 +125,7 @@ function Dashboard() {
             key={index}
             details={cardDetails}
             handleClick={handleAccountCardClick}
-            selectedAccountType={selectedAccountType}
+            selectedVault={selectedVault}
           />
         ))}
       </SimpleGrid>
