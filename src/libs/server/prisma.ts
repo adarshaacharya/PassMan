@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { getEnv } from './env';
 
 interface CustomNodeJsGlobal {
-  prisma: PrismaClient;
+  prisma: PrismaClient | undefined;
 }
 
 declare const global: CustomNodeJsGlobal;

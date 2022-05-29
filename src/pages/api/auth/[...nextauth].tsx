@@ -2,8 +2,8 @@ import { NextApiHandler } from 'next';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import GitHubProvider from 'next-auth/providers/github';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { getEnv } from '@/libs/env';
-import prisma from '@/libs/prisma';
+import { getEnv } from '@/libs/server/env';
+import prisma from '@/libs/server/prisma';
 
 const options: NextAuthOptions = {
   providers: [
@@ -17,7 +17,6 @@ const options: NextAuthOptions = {
   theme: {
     colorScheme: 'light',
   },
-  debug: getEnv('NODE_ENV') === 'development',
 };
 
 const authHandler: NextApiHandler = (req, res) => NextAuth(req, res, options);
