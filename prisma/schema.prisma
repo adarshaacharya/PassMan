@@ -59,9 +59,9 @@ model VerificationToken {
 
 model Vault {
   id          String       @id @default(cuid())
-  catgory     Category
+  category     Category
   createdAt   DateTime     @default(now()) @db.Timestamp(6)
-  updatedAt   DateTime
+  updatedAt   DateTime     @updatedAt @db.Timestamp(6)
   key         String // 🔑
   credentials Credential[]
   owner       User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)

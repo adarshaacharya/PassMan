@@ -17,6 +17,16 @@ const options: NextAuthOptions = {
   theme: {
     colorScheme: 'light',
   },
+  callbacks: {
+    //https://github.com/nextauthjs/next-auth/discussions/536
+    session: async ({ session, user }) => {
+      if (session?.user) {
+        //@ts-expect-error adding additional property user
+        session.user.id = user.id;
+      }
+      return session;
+    },
+  },
 };
 
 const authHandler: NextApiHandler = (req, res) => NextAuth(req, res, options);

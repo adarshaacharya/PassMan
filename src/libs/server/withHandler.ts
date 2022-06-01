@@ -21,7 +21,9 @@ export default function withHandler({
 }: ConfigType) {
   return async function (req: NextApiRequest, res: NextApiResponse) {
     if (req.method && !methods.includes(req.method as Method)) {
-      return res.status(405).end();
+      return res
+        .status(405)
+        .json({ ok: false, error: `${req.method} Method not allowed` });
     }
 
     const session = await getSession({ req });
