@@ -103,8 +103,11 @@ function Dashboard() {
 
   const handleAccountCardClick = React.useCallback((vault: Vault) => {
     setSelectedVault(vault);
-    console.log('handleAccountCardClick', vault);
   }, []);
+
+  const handleVaultCreate = React.useCallback(() => {
+    console.log('handleVaultCreate', selectedVault);
+  }, [selectedVault]);
 
   return (
     //  From a usage standpoint, we don't recommend adding custom margins to the children of HStack, VStack or Stack.
@@ -144,6 +147,7 @@ function Dashboard() {
             bg: 'primary.500',
           }}
           rightIcon={<MdNavigateNext />}
+          onClick={handleVaultCreate}
         >
           Next
         </Button>

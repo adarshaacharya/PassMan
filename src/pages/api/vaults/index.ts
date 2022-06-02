@@ -8,6 +8,24 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
 ) {
+  if (req.method === 'GET') {
+    try {
+      const vault = await prisma.vault.findFirst({
+        where: {
+          category: Vault.PERSONAL,
+        },
+      });
+
+      return res.status(200).json({
+        isVaultCreated: !!vault,
+        ok: true,
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(400).json({ error: error.message, ok: false });
+    }
+  }
+
   if (req.method === 'POST') {
     try {
       const session = await getSession({ req });
@@ -49,7 +67,7 @@ async function handler(
 }
 
 export default withHandler({
-  methods: ['POST'],
+  methods: ['GET', 'POST'],
   handler,
   isPrivateRoute: true,
 });

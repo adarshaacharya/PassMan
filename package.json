@@ -3,7 +3,7 @@
   "description": "A TypeScript starter for Next.js that includes all you need to build amazing projects",
   "version": "1.0.0",
   "private": true,
-  "author": "Aadarsha Acharya(adarshaofficia@gmail.com)",
+  "author": "Aadarsha Acharya(connectwithadarsha@gmail.com)",
   "license": "MIT",
   "keywords": [
     "nextjs",
@@ -41,6 +41,7 @@
     "nprogress": "0.2.0",
     "react": "18.1.0",
     "react-dom": "18.1.0",
+    "react-hook-form": "7.31.3",
     "react-icons": "4.3.1"
   },
   "devDependencies": {
