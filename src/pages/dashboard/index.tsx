@@ -1,3 +1,4 @@
+import { getVaultInformation } from '@/apis';
 import AccountSelectBox from '@/components/AccountSelectBox';
 import SignOut from '@/components/SignOut';
 import { accountSelectCards } from '@/consts';
@@ -18,8 +19,13 @@ function Dashboard() {
   }, []);
 
   const handleVaultCreate = React.useCallback(() => {
-    console.log('handleVaultCreate', selectedVault);
-  }, [selectedVault]);
+    getVaultInformation().then((vaults) => {
+      if (vaults.isVaultCreated) {
+        alert('Vault already created');
+        return;
+      }
+    });
+  }, []);
 
   return (
     //  From a usage standpoint, we don't recommend adding custom margins to the children of HStack, VStack or Stack.

@@ -1,8 +1,9 @@
 import prisma from '@/libs/server/prisma';
-import withHandler, { ResponseType } from '@/libs/server/withHandler';
+import withHandler from '@/libs/server/withHandler';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 import { Vault } from '@/enums';
+import { ResponseType } from '@/types';
 
 async function handler(
   req: NextApiRequest,
@@ -18,6 +19,7 @@ async function handler(
 
       return res.status(200).json({
         isVaultCreated: !!vault,
+        category: vault?.category,
         ok: true,
       });
     } catch (error) {

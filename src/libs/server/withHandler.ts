@@ -1,11 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
-export interface ResponseType {
-  ok: boolean;
-  [key: string]: any;
-}
-
 type Method = 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH';
 
 interface ConfigType {
