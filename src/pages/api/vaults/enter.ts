@@ -1,9 +1,9 @@
 import prisma from '@/libs/server/prisma';
+import ScryptHasher from '@/libs/server/ScryptHasher';
 import withHandler from '@/libs/server/withHandler';
 import { ResponseType } from '@/types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
-import * as bcrypt from 'bcryptjs';
 
 async function handler(
   req: NextApiRequest,
@@ -30,7 +30,7 @@ async function handler(
         });
       }
 
-      const isValid = bcrypt.compareSync(key, vault.key);
+      const isValid = ScryptHasher.getInstance().compareSync(key, vault.key);
 
       if (!isValid) {
         return res.status(400).json({

@@ -11,12 +11,12 @@ async function handler(
   if (req.method === 'GET') {
     try {
       const {
-        query: { id },
+        query: { cid },
       } = req;
 
       let credential = await prisma.credential.findUnique({
         where: {
-          id: id.toString(),
+          id: cid.toString(),
         },
         include: {
           vault: {
@@ -34,11 +34,11 @@ async function handler(
         });
       }
 
-      const decryptedPassword = Aes256.getInstance().decryptSync(
-        credential.password,
-        credential.initializationVector,
-        credential.vault.key,
-      );
+      const decryptedPassword = Aes256.getInstance().decryptSync({
+        hashedVaultKey: credential.vault.key,
+        initializationVector: credential.initializationVector,
+        encryptedPassword: credential.password,
+      });
       credential = {
         ...credential,
         password: decryptedPassword,

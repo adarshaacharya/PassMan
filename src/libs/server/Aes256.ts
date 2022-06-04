@@ -1,5 +1,8 @@
 import crypto from 'node:crypto';
 
+/**
+ * @description Two way hasher for passwords, encryption and decryption
+ */
 class Aes256 {
   encryptSync(password: string, hashedVaultKey: string) {
     const iv = Buffer.from(crypto.randomBytes(16));
@@ -19,11 +22,15 @@ class Aes256 {
     };
   }
 
-  decryptSync(
-    encryptedPassword: string,
-    hashedVaultKey: string,
-    initializationVector: string,
-  ) {
+  decryptSync({
+    encryptedPassword,
+    hashedVaultKey,
+    initializationVector,
+  }: {
+    encryptedPassword: string;
+    hashedVaultKey: string;
+    initializationVector: string;
+  }) {
     const ivBuffer = Buffer.from(initializationVector, 'hex');
     const encryptedPasswordBuffer = Buffer.from(encryptedPassword, 'hex');
     const decipher = crypto.createDecipheriv(

@@ -1,5 +1,8 @@
 import crypto from 'node:crypto';
 
+/**
+ * @description: One way hasher for passwords, replacement of bcrypt
+ */
 class ScryptHasher {
   private encryptPassword(password: string, salt: string) {
     return crypto.scryptSync(password, salt, 8).toString('hex');

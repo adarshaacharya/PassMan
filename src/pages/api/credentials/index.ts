@@ -32,7 +32,6 @@ async function handler(
       const {
         body: { email, username, website, description, password, category },
       } = req;
-      console.log({ body: req.body });
 
       const vault = await prisma.vault.findFirst({
         where: {
@@ -50,7 +49,6 @@ async function handler(
 
       const { encryptedPassword, initializationVector } =
         Aes256.getInstance().encryptSync(password, vault.key);
-      console.log({ id: vault.id });
       const credential = await prisma.credential.create({
         data: {
           email,

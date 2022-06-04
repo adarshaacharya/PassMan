@@ -10,6 +10,9 @@ const options: NextAuthOptions = {
     GitHubProvider({
       clientId: getEnv('GITHUB_ID'),
       clientSecret: getEnv('GITHUB_SECRET'),
+      httpOptions: {
+        timeout: 40000,
+      },
     }),
   ],
   adapter: PrismaAdapter(prisma),
