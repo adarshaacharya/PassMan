@@ -59,7 +59,7 @@ model VerificationToken {
 
 model Vault {
   id          String       @id @default(cuid())
-  category     Category
+  category    Category
   createdAt   DateTime     @default(now()) @db.Timestamp(6)
   updatedAt   DateTime     @updatedAt @db.Timestamp(6)
   key         String // 🔑
@@ -69,18 +69,19 @@ model Vault {
 }
 
 model Credential {
-  id          String   @id @default(cuid())
-  email       String?
-  username    String?
-  website     String
-  description String
-  password    String
-  createdAt   DateTime @default(now()) @db.Timestamp(6)
-  updatedAt   DateTime @updatedAt
-  owner       User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  ownerId     String
-  vault       Vault    @relation(fields: [vaultId], references: [id], onDelete: Cascade)
-  vaultId     String
+  id                   String   @id @default(cuid())
+  email                String?
+  username             String?
+  website              String
+  description          String
+  password             String
+  initializationVector String   @db.Text
+  createdAt            DateTime @default(now()) @db.Timestamp(6)
+  updatedAt            DateTime @updatedAt
+  owner                User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId              String
+  vault                Vault    @relation(fields: [vaultId], references: [id], onDelete: Cascade)
+  vaultId              String
 }
 
 enum Category {
