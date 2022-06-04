@@ -1,4 +1,4 @@
-import Crypto from '@/libs/server/crypto';
+import Aes256 from '@/libs/server/Aes256';
 import prisma from '@/libs/server/prisma';
 import withHandler from '@/libs/server/withHandler';
 import { ResponseType } from '@/types';
@@ -34,13 +34,14 @@ async function handler(
         });
       }
 
+      const decryptedPassword = Aes256.getInstance().decryptSync(
+        credential.password,
+        credential.initializationVector,
+        credential.vault.key,
+      );
       credential = {
         ...credential,
-        password: Crypto.getInstance().decrypt(
-          credential.password,
-          credential.initializationVector,
-          credential.vault.key,
-        ),
+        password: decryptedPassword,
       };
 
       res.status(200).json({ credential, ok: true });

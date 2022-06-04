@@ -1,5 +1,5 @@
 import { Vault } from '@/enums';
-import Crypto from '@/libs/server/crypto';
+import Aes256 from '@/libs/server/Aes256';
 import prisma from '@/libs/server/prisma';
 import withHandler from '@/libs/server/withHandler';
 import { ResponseType } from '@/types';
@@ -52,7 +52,7 @@ async function handler(
       }
 
       const { encryptedPassword, initializationVector } =
-        Crypto.getInstance().encryptCredential(password, vault.key);
+        Aes256.getInstance().encryptSync(password, vault.key);
 
       const credential = await prisma.credential.create({
         data: {

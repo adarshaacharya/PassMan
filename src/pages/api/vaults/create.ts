@@ -1,5 +1,5 @@
 import { Vault } from '@/enums';
-import Crypto from '@/libs/server/crypto';
+import Crypto from '@/libs/server/ScryptHasher';
 import prisma from '@/libs/server/prisma';
 import withHandler from '@/libs/server/withHandler';
 import { ResponseType } from '@/types';

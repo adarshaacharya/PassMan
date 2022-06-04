@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
 
-class Crypto {
-  encryptCredential(password: string, hashedVaultKey: string) {
+class Aes256 {
+  encryptSync(password: string, hashedVaultKey: string) {
     const iv = Buffer.from(crypto.randomBytes(16));
     const cipher = crypto.createCipheriv(
       'aes-256-ctr',
@@ -19,7 +19,7 @@ class Crypto {
     };
   }
 
-  decryptCredential(
+  decryptSync(
     encryptedPassword: string,
     hashedVaultKey: string,
     initializationVector: string,
@@ -40,30 +40,15 @@ class Crypto {
     return decryptedPassword.toString();
   }
 
-  private encryptPassword(password: string, salt: string) {
-    return crypto.scryptSync(password, salt, 8).toString('hex');
-  }
-
-  hashSync(password: string): string {
-    const salt = crypto.randomBytes(8).toString('hex');
-    return this.encryptPassword(password, salt) + salt;
-  }
-
-  compareSync(password: string, hashedPassword: string) {
-    const salt = hashedPassword.slice(64);
-    const originalPassHash = hashedPassword.slice(0, 64);
-    return originalPassHash === this.encryptPassword(password, salt);
-  }
-
-  static instance: Crypto | null = null;
+  static instance: Aes256 | null = null;
 
   static getInstance() {
-    if (Crypto.instance === null) {
-      Crypto.instance = new Crypto();
+    if (Aes256.instance === null) {
+      Aes256.instance = new Aes256();
     }
 
-    return Crypto.instance;
+    return Aes256.instance;
   }
 }
 
-export default Crypto;
+export default Aes256;
