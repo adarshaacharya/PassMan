@@ -5,6 +5,7 @@ type NameToType = {
   readonly DATABASE_URL: string;
   readonly GITHUB_SECRET: string;
   readonly GITHUB_ID: string;
+  readonly NEXTAUTH_SECRET: string;
 };
 
 export function getEnv<Env extends keyof NameToType>(

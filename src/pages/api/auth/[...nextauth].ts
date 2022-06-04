@@ -17,15 +17,25 @@ const options: NextAuthOptions = {
   ],
   adapter: PrismaAdapter(prisma),
   secret: getEnv('GITHUB_SECRET'),
+  session: {
+    strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
   theme: {
     colorScheme: 'light',
   },
   debug: getEnv('NODE_ENV') === 'development',
   callbacks: {
-    //https://github.com/nextauthjs/next-auth/discussions/536
-    session: async ({ session, user }) => {
+    // https://github.com/nextauthjs/next-auth/discussions/536#discussioncomment-154389
+    jwt: async ({ token, user }) => {
+      if (user) {
+        token.uid = user.id;
+      }
+      return token;
+    },
+    session: async ({ session, token }) => {
       if (session?.user) {
-        session.user.id = user.id;
+        session.user.id = token.uid;
       }
       return session;
     },
