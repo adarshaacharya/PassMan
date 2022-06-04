@@ -44,7 +44,12 @@ async function handler(
         },
       });
 
-      if (!vault) return;
+      if (!vault) {
+        return res.status(400).json({
+          error: `${Vault.PERSONAL} Vault doesn't exists`,
+          ok: false,
+        });
+      }
 
       const { encryptedPassword, initializationVector } =
         Crypto.getInstance().encrypt(password, vault.key);

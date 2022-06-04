@@ -1,10 +1,9 @@
+import { HTTPMethod } from '@/types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
-type Method = 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH';
-
 interface ConfigType {
-  methods: Method[];
+  methods: HTTPMethod[];
   handler: (req: NextApiRequest, res: NextApiResponse) => void;
   isPrivateRoute?: boolean;
 }
@@ -15,7 +14,7 @@ export default function withHandler({
   handler,
 }: ConfigType) {
   return async function (req: NextApiRequest, res: NextApiResponse) {
-    if (req.method && !methods.includes(req.method as Method)) {
+    if (req.method && !methods.includes(req.method as HTTPMethod)) {
       return res
         .status(405)
         .json({ ok: false, error: `${req.method} Method not allowed` });

@@ -20,7 +20,7 @@ const Home = () => {
   const { signIn } = useAuth();
   const handleSingIn = async () => {
     await signIn('github', {
-      callbackUrl: '/dashboard',
+      callbackUrl: '/vaults',
     });
   };
 
@@ -117,7 +117,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   if (session) {
     return {
       redirect: {
-        destination: '/dashboard',
+        destination: '/vaults',
         permanent: false,
       },
     };
