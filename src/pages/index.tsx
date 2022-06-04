@@ -8,19 +8,22 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { GetServerSidePropsContext } from 'next';
-import { getSession, signIn } from 'next-auth/react';
+import { getSession } from 'next-auth/react';
 import Image from 'next/image';
 import React from 'react';
 import { AiFillGithub } from 'react-icons/ai';
 import { MdOutlineEmail } from 'react-icons/md';
 import landing from 'public/landing.webp';
+import { useAuth } from '@/hooks/useAuth';
 
 const Home = () => {
+  const { signIn } = useAuth();
   const handleSingIn = async () => {
     await signIn('github', {
       callbackUrl: '/dashboard',
     });
   };
+
   return (
     <Stack minH="100vh" direction={{ base: 'column', md: 'row' }}>
       <Flex flex={1} p={8} align="center" justify="center">

@@ -8,8 +8,10 @@ import customTheme from '@/theme';
 
 import 'src/styles/global.css';
 import 'src/styles/nprogress.css';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 export default function App(props: AppProps) {
+  const [queryClient] = React.useState(() => new QueryClient());
   const { Component, pageProps } = props;
 
   React.useEffect(() => {
@@ -29,9 +31,11 @@ export default function App(props: AppProps) {
 
   return (
     <SessionProvider session={pageProps.session}>
-      <ChakraProvider theme={customTheme}>
-        <Component {...pageProps} />
-      </ChakraProvider>
+      <QueryClientProvider client={queryClient}>
+        <ChakraProvider theme={customTheme}>
+          <Component {...pageProps} />
+        </ChakraProvider>
+      </QueryClientProvider>
     </SessionProvider>
   );
 }

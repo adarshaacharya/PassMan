@@ -1,11 +1,6 @@
-import { VaultResponse } from './types';
+import Axios from 'axios';
+import { VaultInfoSchema } from './types';
 
-export const getVaultInformation = async (): Promise<VaultResponse> => {
-  try {
-    const res = await fetch('/api/vaults');
-    const vaults = await res.json();
-    return vaults;
-  } catch (err) {
-    return err;
-  }
+export const getVaultInformation = async (): Promise<VaultInfoSchema> => {
+  return Axios.post('/api/vault');
 };
