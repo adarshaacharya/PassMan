@@ -1,10 +1,10 @@
+import { Vault } from '@/enums';
+import Crypto from '@/libs/server/crypto';
 import prisma from '@/libs/server/prisma';
 import withHandler from '@/libs/server/withHandler';
+import { ResponseType } from '@/types';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
-import { Vault } from '@/enums';
-import { ResponseType } from '@/types';
-import * as bcrypt from 'bcryptjs';
 
 async function handler(
   req: NextApiRequest,
@@ -31,8 +31,8 @@ async function handler(
         });
       }
 
-      const salt = bcrypt.genSaltSync(10);
-      const hashedVaultKey = bcrypt.hashSync(key, salt);
+      const hashedVaultKey = Crypto.getInstance().hashSync(key);
+      console.log({ hashedVaultKey });
 
       const vault = await prisma.vault.create({
         data: {

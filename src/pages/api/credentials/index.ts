@@ -14,14 +14,14 @@ async function handler(
     try {
       const session = await getSession({ req });
       const userId = session?.user?.id;
-      const vaults = await prisma.credential.findMany({
+      const credentials = await prisma.credential.findMany({
         where: {
           owner: {
             id: userId,
           },
         },
       });
-      res.status(200).json({ vaults, ok: true });
+      res.status(200).json({ credentials, ok: true });
     } catch (error) {
       console.error(error);
       res.status(400).json({ error: error.message, ok: false });
@@ -52,7 +52,7 @@ async function handler(
       }
 
       const { encryptedPassword, initializationVector } =
-        Crypto.getInstance().encrypt(password, vault.key);
+        Crypto.getInstance().encryptCredential(password, vault.key);
 
       const credential = await prisma.credential.create({
         data: {

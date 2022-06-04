@@ -73,7 +73,7 @@ model Credential {
   email                String?
   username             String?
   website              String
-  description          String
+  description          String?
   password             String
   initializationVector String   @db.Text
   createdAt            DateTime @default(now()) @db.Timestamp(6)
