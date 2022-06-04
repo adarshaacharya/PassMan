@@ -1,4 +1,3 @@
-import { Vault } from '@/enums';
 import Crypto from '@/libs/server/ScryptHasher';
 import prisma from '@/libs/server/prisma';
 import withHandler from '@/libs/server/withHandler';
@@ -15,7 +14,7 @@ async function handler(
       const session = await getSession({ req });
       const userId = session?.user?.id;
       const {
-        body: { category = Vault.PERSONAL, key },
+        body: { category, key },
       } = req;
       const vaultExists = await prisma.vault.findFirst({
         where: {
@@ -32,7 +31,6 @@ async function handler(
       }
 
       const hashedVaultKey = Crypto.getInstance().hashSync(key);
-      console.log({ hashedVaultKey });
 
       const vault = await prisma.vault.create({
         data: {

@@ -12,13 +12,10 @@ async function handler(
 ) {
   if (req.method === 'GET') {
     try {
-      const session = await getSession({ req });
-      const userId = session?.user?.id;
+      const { category } = req.body;
       const credentials = await prisma.credential.findMany({
         where: {
-          owner: {
-            id: userId,
-          },
+          category,
         },
       });
       res.status(200).json({ credentials, ok: true });
@@ -33,13 +30,13 @@ async function handler(
       const session = await getSession({ req });
       const userId = session?.user?.id;
       const {
-        body: { email, username, website, description, password },
+        body: { email, username, website, description, password, category },
       } = req;
+      console.log({ body: req.body });
 
-      //@TODO : find vault from userId & vaultId not from category
       const vault = await prisma.vault.findFirst({
         where: {
-          category: Vault.PERSONAL,
+          category,
           owner: { id: userId },
         },
       });
@@ -53,7 +50,7 @@ async function handler(
 
       const { encryptedPassword, initializationVector } =
         Aes256.getInstance().encryptSync(password, vault.key);
-
+      console.log({ id: vault.id });
       const credential = await prisma.credential.create({
         data: {
           email,
@@ -62,14 +59,10 @@ async function handler(
           description,
           password: encryptedPassword,
           initializationVector,
+          category,
           vault: {
             connect: {
-              id: userId,
-            },
-          },
-          owner: {
-            connect: {
-              id: userId,
+              id: vault.id,
             },
           },
         },

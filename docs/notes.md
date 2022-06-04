@@ -46,6 +46,19 @@ model Vault {
 User stroy :
 
 
+url for password manager
+credentials?vaultType=PERSONAL
+credentials?vaultType=BUSINESS
+
+/vaults/personal
+/vaults/business
+
+/credentials/personal
+/credentials/business
+
+
+vaults/credentials/personal
+vaults/credentials/business
 
 
 #DOcker

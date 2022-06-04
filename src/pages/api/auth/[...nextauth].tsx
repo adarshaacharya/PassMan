@@ -17,11 +17,11 @@ const options: NextAuthOptions = {
   theme: {
     colorScheme: 'light',
   },
+  debug: getEnv('NODE_ENV') === 'development',
   callbacks: {
     //https://github.com/nextauthjs/next-auth/discussions/536
     session: async ({ session, user }) => {
       if (session?.user) {
-        //@ts-expect-error adding additional property user
         session.user.id = user.id;
       }
       return session;
