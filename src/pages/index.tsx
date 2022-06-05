@@ -1,3 +1,4 @@
+import { useAuth } from '@/hooks/useAuth';
 import {
   Box,
   Button,
@@ -7,14 +8,11 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { GetServerSidePropsContext } from 'next';
-import { getSession } from 'next-auth/react';
 import Image from 'next/image';
+import landing from 'public/landing.webp';
 import React from 'react';
 import { AiFillGithub } from 'react-icons/ai';
 import { MdOutlineEmail } from 'react-icons/md';
-import landing from 'public/landing.webp';
-import { useAuth } from '@/hooks/useAuth';
 
 const Home = () => {
   const { signIn } = useAuth();
@@ -110,24 +108,5 @@ const Home = () => {
     </Stack>
   );
 };
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await getSession(context);
-
-  if (session) {
-    return {
-      redirect: {
-        destination: '/vaults',
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {
-      session,
-    },
-  };
-}
 
 export default Home;
