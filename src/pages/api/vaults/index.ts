@@ -1,4 +1,3 @@
-import { Vault } from '@/enums';
 import prisma from '@/libs/server/prisma';
 import withHandler from '@/libs/server/withHandler';
 import { ResponseType } from '@/types';
@@ -10,9 +9,10 @@ async function handler(
 ) {
   if (req.method === 'GET') {
     try {
+      const { category } = req.body;
       const vault = await prisma.vault.findFirst({
         where: {
-          category: Vault.PERSONAL,
+          category,
         },
       });
 

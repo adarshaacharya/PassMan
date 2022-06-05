@@ -8,7 +8,7 @@ import customTheme from '@/theme';
 
 import 'src/styles/global.css';
 import 'src/styles/nprogress.css';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 
 export default function App(props: AppProps) {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -32,9 +32,11 @@ export default function App(props: AppProps) {
   return (
     <SessionProvider session={pageProps.session}>
       <QueryClientProvider client={queryClient}>
-        <ChakraProvider theme={customTheme}>
-          <Component {...pageProps} />
-        </ChakraProvider>
+        <Hydrate state={pageProps.dehydratedState}>
+          <ChakraProvider theme={customTheme}>
+            <Component {...pageProps} />
+          </ChakraProvider>
+        </Hydrate>
       </QueryClientProvider>
     </SessionProvider>
   );

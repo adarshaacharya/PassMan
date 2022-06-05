@@ -1,4 +1,8 @@
-import { createVaultSchema } from '@/schemas';
+import { endpoints } from '@/apis/endpoints';
+import { EnterVaultRequest } from '@/apis/types';
+import { handleHttpError } from '@/libs/client/errorHandler';
+import HttpClient from '@/libs/client/HttpClient';
+import { enterVaultSchema } from '@/schemas';
 import {
   Button,
   FormControl,
@@ -22,25 +26,30 @@ type Props = {
   isOpen: boolean;
 };
 
-type EnterVaultForm = {
-  key: string;
-};
-
 function EnterVault({ onClose, isOpen }: Props) {
   const initialRef = React.useRef(null);
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
-  } = useForm<EnterVaultForm>({
+  } = useForm<EnterVaultRequest>({
     mode: 'onTouched',
     reValidateMode: 'onChange',
-    resolver: yupResolver(createVaultSchema),
+    resolver: yupResolver(enterVaultSchema),
   });
 
-  const onSubmit = (values: EnterVaultForm) => {
-    if (!values) return;
+  const onSubmit = (values: EnterVaultRequest) => {
     console.log({ values });
+    HttpClient.post(endpoints.vaults.enter, values)
+      .then(() => {
+        onClose();
+      })
+      .catch((err) => {
+        console.log(err);
+        const errorMessage = handleHttpError(err);
+        setError('key', { type: 'manual', message: errorMessage });
+      });
   };
 
   return (
@@ -54,12 +63,14 @@ function EnterVault({ onClose, isOpen }: Props) {
     >
       <ModalOverlay backdropFilter="blur(2px)" />
       <ModalContent maxW="500px">
-        <ModalHeader>Enter private key for vault</ModalHeader>
+        <ModalHeader textAlign="center">
+          Since, you have already created your vault please enter vault key
+        </ModalHeader>
         <ModalCloseButton />
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form id="enter-vault-form" onSubmit={handleSubmit(onSubmit)}>
           <ModalBody p="8">
             <FormControl isRequired isInvalid={Boolean(errors.key)}>
-              <FormLabel htmlFor="key">Enter vault key </FormLabel>
+              <FormLabel htmlFor="key">Enter Vault Key</FormLabel>
               <Input
                 type="password"
                 id="key"
@@ -72,9 +83,9 @@ function EnterVault({ onClose, isOpen }: Props) {
               </FormHelperText>
             </FormControl>
           </ModalBody>
-
           <ModalFooter>
             <Button
+              form="enter-vault-form"
               colorScheme="primary"
               mr={3}
               size="lg"

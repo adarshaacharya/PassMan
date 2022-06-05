@@ -55,7 +55,10 @@ function CreateVault({ isOpen, onClose }: Props) {
     >
       <ModalOverlay backdropFilter="blur(2px)" />
       <ModalContent maxW="500px">
-        <ModalHeader>Create private key for vault</ModalHeader>
+        <ModalHeader>
+          Since this is your first time creating vault please create private ky
+          and remember it.
+        </ModalHeader>
         <ModalCloseButton />
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalBody p="8">
