@@ -10,6 +10,7 @@ import { GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/react';
 import * as React from 'react';
 import { MdNavigateNext } from 'react-icons/md';
+import useToast from '@/hooks/useToast';
 
 enum VaultModal {
   CREATE,
@@ -17,6 +18,7 @@ enum VaultModal {
 }
 
 function Dashboard() {
+  const { showToast } = useToast();
   const [selectedVault, setSelectedVault] = React.useState<Vault>(
     Vault.PERSONAL,
   );
@@ -30,6 +32,14 @@ function Dashboard() {
   }, []);
 
   const handleVaultCreate = React.useCallback(() => {
+    if (selectedVault === Vault.BUSINESS) {
+      showToast({
+        status: 'warning',
+        description: 'Business vault is not released yet.',
+      });
+      return;
+    }
+
     enterVaultInformation(vaultCategory).then((vault) => {
       setVaultCategory(vault.category);
       if (vault.isVaultCreated) {
@@ -38,7 +48,7 @@ function Dashboard() {
       }
       setVaultModal(VaultModal.CREATE);
     });
-  }, [vaultCategory]);
+  }, [selectedVault, showToast, vaultCategory]);
 
   const enterMode = React.useMemo(() => {
     return vaultModal === VaultModal.ENTER;
