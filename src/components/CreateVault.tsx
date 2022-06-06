@@ -16,6 +16,10 @@ import {
 } from '@chakra-ui/react';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
+import HttpClient from '@/libs/client/HttpClient';
+import { endpoints } from '@/apis/endpoints';
+import { getErrorMessage } from '@/libs/client/errorHandler';
+import useToast from '@/hooks/useToast';
 
 type Props = {
   isOpen: boolean;
@@ -29,6 +33,7 @@ type CreatVaultForm = {
 
 function CreateVault({ isOpen, onClose }: Props) {
   const initialRef = React.useRef(null);
+  const { showToast } = useToast();
   const {
     register,
     handleSubmit,
@@ -41,7 +46,24 @@ function CreateVault({ isOpen, onClose }: Props) {
 
   const onSubmit = (values: CreatVaultForm) => {
     if (!values) return;
-    console.log({ values });
+    const { key } = values;
+    HttpClient.post(endpoints.vaults.create, {
+      key,
+    })
+      .then(() => {
+        onClose();
+        showToast({
+          description: 'Vault created successfully',
+          status: 'success',
+        });
+      })
+      .catch((err) => {
+        const errorMessage = getErrorMessage(err);
+        showToast({
+          description: errorMessage,
+          status: 'error',
+        });
+      });
   };
 
   return (
@@ -55,9 +77,9 @@ function CreateVault({ isOpen, onClose }: Props) {
     >
       <ModalOverlay backdropFilter="blur(2px)" />
       <ModalContent maxW="500px">
-        <ModalHeader>
-          Since this is your first time creating vault please create private ky
-          and remember it.
+        <ModalHeader px="10" textAlign="center">
+          Enter super strong private key for vault . You won&apos;t be able to
+          change private key, please note it properly.
         </ModalHeader>
         <ModalCloseButton />
         <form onSubmit={handleSubmit(onSubmit)}>

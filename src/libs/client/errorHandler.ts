@@ -9,7 +9,7 @@ type Error = AxiosError & {
   };
 };
 
-export const handleHttpError = (error: Error) => {
+export const getErrorMessage = (error: Error) => {
   let message = 'Something went wrong';
   if (error.response) {
     message = error.response?.data?.error || message;

@@ -1,6 +1,6 @@
 import { endpoints } from '@/apis/endpoints';
 import { EnterVaultRequest } from '@/apis/types';
-import { handleHttpError } from '@/libs/client/errorHandler';
+import { getErrorMessage } from '@/libs/client/errorHandler';
 import HttpClient from '@/libs/client/HttpClient';
 import { enterVaultSchema } from '@/schemas';
 import {
@@ -18,6 +18,7 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -28,6 +29,7 @@ type Props = {
 
 function EnterVault({ onClose, isOpen }: Props) {
   const initialRef = React.useRef(null);
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -44,10 +46,10 @@ function EnterVault({ onClose, isOpen }: Props) {
     HttpClient.post(endpoints.vaults.enter, values)
       .then(() => {
         onClose();
+        router.push('/credentials');
       })
       .catch((err) => {
-        console.log(err);
-        const errorMessage = handleHttpError(err);
+        const errorMessage = getErrorMessage(err);
         setError('key', { type: 'manual', message: errorMessage });
       });
   };
