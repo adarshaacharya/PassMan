@@ -1,12 +1,15 @@
+import { Vault } from '@/enums';
 import HttpClient from '@/libs/client/HttpClient';
 import {
   CreateVaultResponse,
   CreatVaultRequest,
-  VaultInfoSchema,
+  VaultInfoResponse,
 } from './types';
 
-export const getVaultInformation = async () => {
-  return HttpClient.get<VaultInfoSchema>('/vaults');
+export const enterVaultInformation = async (vaultCategory: Vault) => {
+  return HttpClient.post<VaultInfoResponse>('/vaults', {
+    category: vaultCategory,
+  });
 };
 
 export const createVault = async ({ category, key }: CreatVaultRequest) => {

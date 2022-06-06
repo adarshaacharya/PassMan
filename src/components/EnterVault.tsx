@@ -42,7 +42,6 @@ function EnterVault({ onClose, isOpen }: Props) {
   });
 
   const onSubmit = (values: EnterVaultRequest) => {
-    console.log({ values });
     HttpClient.post(endpoints.vaults.enter, values)
       .then(() => {
         onClose();

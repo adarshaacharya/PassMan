@@ -1,4 +1,4 @@
-import { getVaultInformation } from '@/apis';
+import { enterVaultInformation } from '@/apis';
 import AccountSelectBox from '@/components/AccountSelectBox';
 import CreateVault from '@/components/CreateVault';
 import EnterVault from '@/components/EnterVault';
@@ -21,14 +21,18 @@ function Dashboard() {
     Vault.PERSONAL,
   );
   const [vaultModal, setVaultModal] = React.useState<VaultModal | null>(null);
+  const [vaultCategory, setVaultCategory] = React.useState<Vault>(
+    Vault.PERSONAL,
+  );
 
   const handleAccountCardClick = React.useCallback((vault: Vault) => {
     setSelectedVault(vault);
   }, []);
 
   const handleVaultCreate = React.useCallback(() => {
-    getVaultInformation().then((vaults) => {
-      if (vaults.isVaultCreated) {
+    enterVaultInformation(vaultCategory).then((vault) => {
+      setVaultCategory(vault.category);
+      if (vault.isVaultCreated) {
         setVaultModal(VaultModal.ENTER);
         return;
       }
@@ -43,11 +47,15 @@ function Dashboard() {
   const createMode = React.useMemo(() => {
     return vaultModal === VaultModal.CREATE;
   }, [vaultModal]);
-
+  console.log({ vaultCategory });
   return (
     //  we don't recommend adding custom margins to the children of HStack, VStack or Stack. use Flex or use the shouldWrapChildren prop.
     <React.Fragment>
-      <CreateVault isOpen={createMode} onClose={() => setVaultModal(null)} />
+      <CreateVault
+        vaultCategory={vaultCategory}
+        isOpen={createMode}
+        onClose={() => setVaultModal(null)}
+      />
       <EnterVault isOpen={enterMode} onClose={() => setVaultModal(null)} />
       <Stack
         minH="100vh"

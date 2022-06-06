@@ -1,13 +1,13 @@
-import { VaultCategory } from '@prisma/client';
+import { Vault } from '@/enums';
 
-export type VaultInfoSchema = {
-  category: VaultCategory;
+export type VaultInfoResponse = {
+  category: Vault;
   isVaultCreated: boolean;
   ok: boolean;
 };
 
 export type CreatVaultRequest = {
-  category: VaultCategory;
+  category: Vault;
   key: string;
 };
 

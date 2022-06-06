@@ -1,5 +1,8 @@
+import { createVault } from '@/apis';
+import { Vault } from '@/enums';
+import useToast from '@/hooks/useToast';
+import { getErrorMessage } from '@/libs/client/errorHandler';
 import { createVaultSchema } from '@/schemas';
-import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Button,
   FormControl,
@@ -14,14 +17,12 @@ import {
   ModalHeader,
   ModalOverlay,
 } from '@chakra-ui/react';
+import { yupResolver } from '@hookform/resolvers/yup';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
-import HttpClient from '@/libs/client/HttpClient';
-import { endpoints } from '@/apis/endpoints';
-import { getErrorMessage } from '@/libs/client/errorHandler';
-import useToast from '@/hooks/useToast';
 
 type Props = {
+  vaultCategory: Vault;
   isOpen: boolean;
   onClose: VoidFunction;
 };
@@ -31,7 +32,7 @@ type CreatVaultForm = {
   keyConfirmation: string;
 };
 
-function CreateVault({ isOpen, onClose }: Props) {
+function CreateVault({ vaultCategory, isOpen, onClose }: Props) {
   const initialRef = React.useRef(null);
   const { showToast } = useToast();
   const {
@@ -47,9 +48,7 @@ function CreateVault({ isOpen, onClose }: Props) {
   const onSubmit = (values: CreatVaultForm) => {
     if (!values) return;
     const { key } = values;
-    HttpClient.post(endpoints.vaults.create, {
-      key,
-    })
+    createVault({ key, category: vaultCategory })
       .then(() => {
         onClose();
         showToast({

@@ -7,18 +7,19 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
 ) {
-  if (req.method === 'GET') {
+  if (req.method === 'POST') {
     try {
+      console.log({ req });
       const { category } = req.body;
       const vault = await prisma.vault.findFirst({
         where: {
           category,
         },
       });
-
+      console.log(category);
       return res.status(200).json({
         isVaultCreated: !!vault,
-        category: vault?.category,
+        category,
         ok: true,
       });
     } catch (error) {
