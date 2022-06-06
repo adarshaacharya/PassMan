@@ -1,5 +1,5 @@
-import React from 'react';
 import { useToast as useChakraToast } from '@chakra-ui/react';
+import React from 'react';
 
 type Status = 'success' | 'error' | 'warning' | 'info';
 
@@ -13,8 +13,9 @@ function useToast() {
         position: 'top-right',
         duration: 5000,
         isClosable: true,
-        description,
+        variant: 'top-accent',
         status,
+        description,
       });
     },
     [toast],

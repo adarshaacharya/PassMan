@@ -9,11 +9,13 @@ type Error = AxiosError & {
   };
 };
 
+/**
+ *
+ * @param error : Error instance
+ * @returns extracted description of error from AxiosError
+ */
 export const getErrorMessage = (error: Error) => {
   let message = 'Something went wrong';
-  if (error.response) {
-    message = error.response?.data?.error || message;
-  }
-
+  message = error.response?.data?.error ?? message;
   return message;
 };
