@@ -2,7 +2,7 @@ import { enterVaultInformation } from '@/apis';
 import AccountSelectBox from '@/components/AccountSelectBox';
 import CreateVault from '@/components/CreateVault';
 import EnterVault from '@/components/EnterVault';
-import SignOut from '@/components/SignOut';
+import AuthLayout from '@/components/AuthLayout';
 import { accountSelectCards } from '@/consts';
 import { Vault } from '@/enums';
 import { Button, Flex, Heading, SimpleGrid, Stack } from '@chakra-ui/react';
@@ -38,7 +38,7 @@ function Dashboard() {
       }
       setVaultModal(VaultModal.CREATE);
     });
-  }, []);
+  }, [vaultCategory]);
 
   const enterMode = React.useMemo(() => {
     return vaultModal === VaultModal.ENTER;
@@ -47,10 +47,10 @@ function Dashboard() {
   const createMode = React.useMemo(() => {
     return vaultModal === VaultModal.CREATE;
   }, [vaultModal]);
-  console.log({ vaultCategory });
+
   return (
     //  we don't recommend adding custom margins to the children of HStack, VStack or Stack. use Flex or use the shouldWrapChildren prop.
-    <React.Fragment>
+    <AuthLayout>
       <CreateVault
         vaultCategory={vaultCategory}
         isOpen={createMode}
@@ -63,7 +63,6 @@ function Dashboard() {
         justifyContent="center"
         shouldWrapChildren
       >
-        <SignOut />
         <Heading as="h1" size="2xl" color="gray.700">
           Choose Vault Type
         </Heading>
@@ -97,7 +96,7 @@ function Dashboard() {
           </Button>
         </Flex>
       </Stack>
-    </React.Fragment>
+    </AuthLayout>
   );
 }
 
