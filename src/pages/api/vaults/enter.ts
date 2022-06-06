@@ -16,6 +16,7 @@ async function handler(
       const {
         body: { category, key },
       } = req;
+
       const vault = await prisma.vault.findFirst({
         where: {
           category,
@@ -31,10 +32,9 @@ async function handler(
       }
 
       const isValid = ScryptHasher.getInstance().compareSync(key, vault.key);
-
       if (!isValid) {
         return res.status(400).json({
-          error: 'Vault key is incorrect',
+          error: 'You entered an invalid vault key. Please try again.',
           ok: false,
         });
       }

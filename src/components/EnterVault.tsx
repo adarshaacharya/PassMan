@@ -1,7 +1,7 @@
-import { endpoints } from '@/apis/endpoints';
+import { enterVault } from '@/apis';
 import { EnterVaultRequest } from '@/apis/types';
+import { Vault } from '@/enums';
 import { getErrorMessage } from '@/libs/client/errorHandler';
-import HttpClient from '@/libs/client/HttpClient';
 import { enterVaultSchema } from '@/schemas';
 import {
   Button,
@@ -25,9 +25,12 @@ import { useForm } from 'react-hook-form';
 type Props = {
   onClose: VoidFunction;
   isOpen: boolean;
+  vaultCategory: Vault;
 };
 
-function EnterVault({ onClose, isOpen }: Props) {
+type EnterVaultSchema = Omit<EnterVaultRequest, 'category'>;
+
+function EnterVault({ onClose, isOpen, vaultCategory }: Props) {
   const initialRef = React.useRef(null);
   const router = useRouter();
   const {
@@ -35,14 +38,17 @@ function EnterVault({ onClose, isOpen }: Props) {
     handleSubmit,
     setError,
     formState: { errors, isSubmitting },
-  } = useForm<EnterVaultRequest>({
+  } = useForm<EnterVaultSchema>({
     mode: 'onTouched',
     reValidateMode: 'onChange',
     resolver: yupResolver(enterVaultSchema),
   });
 
-  const onSubmit = (values: EnterVaultRequest) => {
-    HttpClient.post(endpoints.vaults.enter, values)
+  const onSubmit = (values: EnterVaultSchema) => {
+    enterVault({
+      key: values.key,
+      category: vaultCategory,
+    })
       .then(() => {
         onClose();
         router.push('/credentials');

@@ -56,7 +56,11 @@ function Dashboard() {
         isOpen={createMode}
         onClose={() => setVaultModal(null)}
       />
-      <EnterVault isOpen={enterMode} onClose={() => setVaultModal(null)} />
+      <EnterVault
+        vaultCategory={vaultCategory}
+        isOpen={enterMode}
+        onClose={() => setVaultModal(null)}
+      />
       <Stack
         minH="100vh"
         alignItems="center"

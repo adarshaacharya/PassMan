@@ -19,8 +19,9 @@ export const createVault = async ({ category, key }: CreatVaultRequest) => {
   });
 };
 
-export const enterVault = async ({ key }: CreatVaultRequest) => {
+export const enterVault = async ({ key, category }: CreatVaultRequest) => {
   return HttpClient.post<CreateVaultResponse>('/vaults/enter', {
     key,
+    category,
   });
 };

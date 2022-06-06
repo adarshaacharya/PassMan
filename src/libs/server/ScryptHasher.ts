@@ -2,6 +2,7 @@ import crypto from 'node:crypto';
 
 /**
  * @description: One way hasher for passwords, replacement of bcrypt
+ * @source : https://stackoverflow.com/questions/19822643/what-is-an-alternative-for-bcrypt-to-use-with-node
  */
 class ScryptHasher {
   private encryptPassword(password: string, salt: string) {
@@ -14,8 +15,8 @@ class ScryptHasher {
   }
 
   compareSync(password: string, hashedPassword: string) {
-    const salt = hashedPassword.slice(64);
-    const originalPassHash = hashedPassword.slice(0, 64);
+    const salt = hashedPassword.slice(16);
+    const originalPassHash = hashedPassword.slice(0, 16);
     return originalPassHash === this.encryptPassword(password, salt);
   }
 

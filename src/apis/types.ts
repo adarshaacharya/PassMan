@@ -15,6 +15,6 @@ export type CreateVaultResponse = {
   ok: boolean;
 };
 
-export type EnterVaultRequest = Omit<CreatVaultRequest, 'category'>;
+export type EnterVaultRequest = CreatVaultRequest;
 
 export type EnterVaultResponse = CreateVaultResponse;
