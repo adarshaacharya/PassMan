@@ -29,7 +29,7 @@ async function handler(
 
       if (!credential) {
         return res.status(400).json({
-          error: 'Credential not found',
+          errorMessage: 'Credential not found',
           ok: false,
         });
       }
@@ -47,7 +47,7 @@ async function handler(
       res.status(200).json({ credential, ok: true });
     } catch (error) {
       console.error(error);
-      res.status(400).json({ error: error.message, ok: false });
+      res.status(400).json({ errorMessage: error.message, ok: false });
     }
   }
 }

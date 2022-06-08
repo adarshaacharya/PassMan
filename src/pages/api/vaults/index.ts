@@ -16,7 +16,7 @@ async function handler(
           category,
         },
       });
-      console.log(category);
+
       return res.status(200).json({
         isVaultCreated: !!vault,
         category,
@@ -24,7 +24,7 @@ async function handler(
       });
     } catch (error) {
       console.error(error);
-      res.status(400).json({ error: error.message, ok: false });
+      res.status(400).json({ errorMessage: error.message, ok: false });
     }
   }
 }

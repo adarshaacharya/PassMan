@@ -26,7 +26,7 @@ async function handler(
 
       if (!vault) {
         return res.status(400).json({
-          error: `${category} Vault doesn't exists`,
+          errorMessage: `${category} Vault doesn't exists`,
           ok: false,
         });
       }
@@ -34,7 +34,7 @@ async function handler(
       const isValid = ScryptHasher.getInstance().compareSync(key, vault.key);
       if (!isValid) {
         return res.status(400).json({
-          error: 'You entered an invalid vault key. Please try again.',
+          errorMessage: 'You entered an invalid vault key. Please try again.',
           ok: false,
         });
       }
@@ -42,7 +42,7 @@ async function handler(
       res.status(200).json({ ok: true });
     } catch (error) {
       console.error(error);
-      res.status(400).json({ error: error.message, ok: false });
+      res.status(400).json({ errorMessage: error.message, ok: false });
     }
   }
 }

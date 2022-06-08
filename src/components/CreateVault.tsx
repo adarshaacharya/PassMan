@@ -18,6 +18,7 @@ import {
   ModalOverlay,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -35,6 +36,7 @@ type CreatVaultForm = {
 function CreateVault({ vaultCategory, isOpen, onClose }: Props) {
   const initialRef = React.useRef(null);
   const { showToast } = useToast();
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -50,7 +52,7 @@ function CreateVault({ vaultCategory, isOpen, onClose }: Props) {
     const { key } = values;
     createVault({ key, category: vaultCategory })
       .then(() => {
-        onClose();
+        router.push('/credentials');
         showToast({
           description: 'Vault created successfully',
           status: 'success',

@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 type Error = AxiosError & {
   response?: {
     data?: {
-      error?: string;
+      errorMessage?: string;
       ok: false;
     };
   };
@@ -16,6 +16,6 @@ type Error = AxiosError & {
  */
 export const getErrorMessage = (error: Error) => {
   let message = 'Something went wrong';
-  message = error.response?.data?.error ?? message;
+  message = error.response?.data?.errorMessage ?? message;
   return message;
 };

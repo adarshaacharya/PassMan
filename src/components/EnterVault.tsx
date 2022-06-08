@@ -50,7 +50,7 @@ function EnterVault({ onClose, isOpen, vaultCategory }: Props) {
       category: vaultCategory,
     })
       .then(() => {
-        onClose();
+        //note: don't close the modal on success, otherrwise the user will be flickered with vaults page for a second
         router.push('/credentials');
       })
       .catch((err) => {
@@ -62,7 +62,7 @@ function EnterVault({ onClose, isOpen, vaultCategory }: Props) {
   return (
     <Modal
       initialFocusRef={initialRef}
-      isOpen={isOpen}
+      isOpen={isOpen || isSubmitting}
       onClose={onClose}
       closeOnOverlayClick={false}
       size="xl"
