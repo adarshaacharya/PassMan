@@ -1,4 +1,4 @@
-import { enterVaultInformation } from '@/apis';
+import { enterVaultInformation } from '@/services';
 import AccountSelectBox from '@/components/AccountSelectBox';
 import CreateVault from '@/components/CreateVault';
 import EnterVault from '@/components/EnterVault';

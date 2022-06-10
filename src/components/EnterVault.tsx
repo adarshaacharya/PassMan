@@ -1,5 +1,5 @@
-import { enterVault } from '@/apis';
-import { EnterVaultRequest } from '@/apis/types';
+import { enterVault } from '@/services';
+import { EnterVaultRequest } from '@/services/types';
 import { Vault } from '@/enums';
 import { getErrorMessage } from '@/libs/client/errorHandler';
 import { enterVaultSchema } from '@/schemas';

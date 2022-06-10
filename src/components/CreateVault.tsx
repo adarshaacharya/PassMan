@@ -1,4 +1,4 @@
-import { createVault } from '@/apis';
+import { createVault } from '@/services';
 import { Vault } from '@/enums';
 import useToast from '@/hooks/useToast';
 import { getErrorMessage } from '@/libs/client/errorHandler';
