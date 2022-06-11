@@ -18,3 +18,12 @@ export type CreateVaultResponse = {
 export type EnterVaultRequest = CreatVaultRequest;
 
 export type EnterVaultResponse = CreateVaultResponse;
+
+export type CreateCredentialRequest = {
+  email?: string;
+  username?: string;
+  website: string;
+  description: string;
+  password: string;
+  category: Vault;
+};

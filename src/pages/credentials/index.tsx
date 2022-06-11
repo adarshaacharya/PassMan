@@ -1,5 +1,7 @@
 import AuthLayout from '@/components/AuthLayout';
+import CreateCredential from '@/components/CreateCredential';
 import CredentialCover from '@/components/CredentialCover';
+import { Vault } from '@/enums';
 import { Creds, getCredentials } from '@/mock';
 import {
   Box,
@@ -11,9 +13,16 @@ import {
   Heading,
   Text,
 } from '@chakra-ui/react';
+import React from 'react';
 import { MdAdd } from 'react-icons/md';
 
 const CredetialsPage = ({ credentials }: { credentials: Creds[] }) => {
+  const [credsModal, setcredsModal] = React.useState(false);
+
+  const handleCredentialCreate = React.useCallback(() => {
+    setcredsModal(true);
+  }, []);
+
   return (
     <AuthLayout>
       <Container maxW="container.xl">
@@ -21,6 +30,13 @@ const CredetialsPage = ({ credentials }: { credentials: Creds[] }) => {
           Credentials
         </Heading>
 
+        {credsModal && (
+          <CreateCredential
+            isOpen={credsModal}
+            vaultCategory={Vault.PERSONAL}
+            onClose={() => setcredsModal(false)}
+          />
+        )}
         <Flex minWidth="max-content" justify="flex-end">
           <Box>
             <Button
@@ -28,6 +44,7 @@ const CredetialsPage = ({ credentials }: { credentials: Creds[] }) => {
               colorScheme="primary"
               variant="solid"
               size="lg"
+              onClick={handleCredentialCreate}
             >
               Add Credential
             </Button>

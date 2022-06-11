@@ -19,3 +19,11 @@ export const enterVaultSchema = Yup.object().shape({
     .min(4, 'Vault key length should be at least 4 characters')
     .max(40, 'Vault key cannot exceed more than 40 characters'),
 });
+
+export const createCreditentialSchema = Yup.object().shape({
+  email: Yup.string().email('Email is invalid'),
+  username: Yup.string().required('Username is required'),
+  website: Yup.string().required('Website is required'),
+  description: Yup.string().required('Description is required'),
+  password: Yup.string().required('Password is required'),
+});

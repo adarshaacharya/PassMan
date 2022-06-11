@@ -7,8 +7,17 @@ function useToast() {
   const toast = useChakraToast();
 
   const showToast = React.useCallback(
-    ({ description, status }: { description: string; status: Status }) => {
+    ({
+      title,
+      description,
+      status,
+    }: {
+      title?: string;
+      description: string;
+      status: Status;
+    }) => {
       toast({
+        title,
         size: 'lg',
         position: 'top-right',
         duration: 5000,
