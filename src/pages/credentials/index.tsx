@@ -3,20 +3,36 @@ import CredentialCover from '@/components/CredentialCover';
 import { Creds, getCredentials } from '@/mock';
 import {
   Box,
+  Button,
   Container,
+  Flex,
   Grid,
   GridItem,
   Heading,
   Text,
 } from '@chakra-ui/react';
+import { MdAdd } from 'react-icons/md';
 
 const CredetialsPage = ({ credentials }: { credentials: Creds[] }) => {
   return (
     <AuthLayout>
       <Container maxW="container.xl">
         <Heading size="3xl" color="gray.600" textAlign="center" py="10">
-          CREDENTIALS
+          Credentials
         </Heading>
+
+        <Flex minWidth="max-content" justify="flex-end">
+          <Box>
+            <Button
+              leftIcon={<MdAdd />}
+              colorScheme="primary"
+              variant="solid"
+              size="lg"
+            >
+              Add Credential
+            </Button>
+          </Box>
+        </Flex>
         <Grid
           templateColumns={{
             base: 'repeat(1, 1fr)',
