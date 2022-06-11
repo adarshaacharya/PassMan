@@ -22,24 +22,24 @@ import React from 'react';
 import { MdAdd } from 'react-icons/md';
 
 const CredetialsPage = ({ credentials }: { credentials: Creds[] }) => {
-  const [credsModal, setcredsModal] = React.useState(false);
+  const [credsModal, setCredsModal] = React.useState(false);
 
   const handleCredentialCreate = React.useCallback(() => {
-    setcredsModal(true);
+    setCredsModal(true);
   }, []);
 
   return (
     <AuthLayout>
       <Container maxW="container.xl">
         <Heading size="3xl" color="gray.600" textAlign="center" py="10">
-          Credentials
+          CREDENTIALS
         </Heading>
 
         {credsModal && (
           <CreateCredential
             isOpen={credsModal}
             vaultCategory={Vault.PERSONAL}
-            onClose={() => setcredsModal(false)}
+            onClose={() => setCredsModal(false)}
           />
         )}
 
@@ -102,6 +102,7 @@ const CredetialsPage = ({ credentials }: { credentials: Creds[] }) => {
                 bg="whiteAlpha.900"
                 borderColor="gray.200"
                 rounded="2xl"
+                mb="14"
               >
                 <CredentialCard credential={credential} />
               </GridItem>

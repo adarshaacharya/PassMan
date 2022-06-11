@@ -1,10 +1,11 @@
 import { Creds } from '@/types';
 import { Box, Button, Link, Text, useColorModeValue } from '@chakra-ui/react';
 import CredentialCover from './CredentialCover';
-import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 
 const CredentialCard = ({ credential }: { credential: Creds }) => {
   const { id, website, email, username } = credential;
+  const router = useRouter();
   return (
     <Box
       shadow="xl"
@@ -17,32 +18,28 @@ const CredentialCard = ({ credential }: { credential: Creds }) => {
       borderWidth="1px"
     >
       <CredentialCover url={website} />
-      <Box py="16">
+      <Box py="10">
         <Link href={website} color="blue.700" isExternal>
           {website}
         </Link>
         <Text mt="5">{email ?? username}</Text>
-        <Text mt="3" color="gray.700">
-          Created 2 mins ago
-        </Text>
       </Box>
 
-      <NextLink href="/credentials/[id]" as={`/credentials/${id}`}>
-        <Button
-          w="full"
-          bg="primary.500"
-          color="white"
-          rounded="md"
-          _hover={{
-            transform: 'translateY(-2px)',
-            boxShadow: 'lg',
-          }}
-          size="lg"
-          py="6"
-        >
-          View Details
-        </Button>
-      </NextLink>
+      <Button
+        rounded="md"
+        w="full"
+        bg="primary.500"
+        color="white"
+        _hover={{
+          transform: 'translateY(-2px)',
+          boxShadow: 'lg',
+        }}
+        size="lg"
+        py="6"
+        onClick={() => router.push(`/credentials/${id}`)}
+      >
+        View Details
+      </Button>
     </Box>
   );
 };

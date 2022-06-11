@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Stack } from '@chakra-ui/react';
+import { Avatar, Button, Stack } from '@chakra-ui/react';
 import { signOut, useSession } from 'next-auth/react';
 import * as React from 'react';
 import { MdOutlineLogout } from 'react-icons/md';
@@ -25,23 +25,21 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
       >
         <Avatar name={name} size="xl" src={avatar} />
 
-        <Box>
-          <Button
-            size="lg"
-            p={8}
-            rounded="full"
-            type="button"
-            bg="blackAlpha.900"
-            color="whiteAlpha.900"
-            _hover={{
-              bg: 'blackAlpha.800',
-            }}
-            rightIcon={<MdOutlineLogout />}
-            onClick={handleSignOut}
-          >
-            Sign Out
-          </Button>
-        </Box>
+        <Button
+          size="lg"
+          p={8}
+          rounded="full"
+          type="button"
+          bg="gray.800"
+          color="whiteAlpha.900"
+          _hover={{
+            bg: 'blackAlpha.800',
+          }}
+          rightIcon={<MdOutlineLogout />}
+          onClick={handleSignOut}
+        >
+          Sign Out
+        </Button>
       </Stack>
       {children}
     </React.Fragment>
