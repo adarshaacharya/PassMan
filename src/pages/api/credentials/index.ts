@@ -14,11 +14,30 @@ async function handler(
   if (req.method === 'GET') {
     try {
       const { category } = req.query;
-      const credentials = await prisma.credential.findMany({
+      const session = await getSession();
+      const userId = session?.user?.id;
+
+      const vault = await prisma.vault.findFirst({
         where: {
           category: category as VaultCategory,
+          owner: { id: userId },
         },
       });
+
+      if (!vault) {
+        return res.status(400).json({
+          ok: false,
+          errorMessage: 'Vault not found',
+        });
+      }
+
+      const credentials = await prisma.credential.findMany({
+        where: {
+          category: VaultCategory.PERSONAL,
+          vault: { id: vault?.id },
+        },
+      });
+
       res.status(200).json({ credentials, ok: true });
     } catch (error) {
       console.error(error);
