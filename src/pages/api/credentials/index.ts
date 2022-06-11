@@ -3,6 +3,7 @@ import Aes256 from '@/libs/server/Aes256';
 import prisma from '@/libs/server/prisma';
 import withHandler from '@/libs/server/withHandler';
 import { ResponseType } from '@/types';
+import { VaultCategory } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 
@@ -12,10 +13,10 @@ async function handler(
 ) {
   if (req.method === 'GET') {
     try {
-      const { category } = req.body;
+      const { category } = req.query;
       const credentials = await prisma.credential.findMany({
         where: {
-          category,
+          category: category as VaultCategory,
         },
       });
       res.status(200).json({ credentials, ok: true });

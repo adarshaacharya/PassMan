@@ -2,7 +2,8 @@ import AuthLayout from '@/components/AuthLayout';
 import CreateCredential from '@/components/CreateCredential';
 import CredentialCover from '@/components/CredentialCover';
 import { Vault } from '@/enums';
-import { Creds, getCredentials } from '@/mock';
+import prismaClient from '@/libs/server/prisma';
+import { Creds } from '@/mock';
 import {
   Box,
   Button,
@@ -13,6 +14,9 @@ import {
   Heading,
   Text,
 } from '@chakra-ui/react';
+import { VaultCategory } from '@prisma/client';
+import { GetServerSidePropsContext } from 'next';
+import { getSession } from 'next-auth/react';
 import React from 'react';
 import { MdAdd } from 'react-icons/md';
 
@@ -95,11 +99,27 @@ const CredetialsPage = ({ credentials }: { credentials: Creds[] }) => {
   );
 };
 
-export async function getServerSideProps() {
-  const credentials = await getCredentials();
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getSession(context);
+  const userId = session?.user?.id;
+
+  const vault = await prismaClient.vault.findFirst({
+    where: {
+      category: VaultCategory.PERSONAL,
+      owner: { id: userId },
+    },
+  });
+
+  const credentials = await prismaClient.credential.findMany({
+    where: {
+      category: VaultCategory.PERSONAL,
+      vault: { id: vault?.id },
+    },
+  });
+
   return {
     props: {
-      credentials,
+      credentials: JSON.parse(JSON.stringify(credentials)),
     },
   };
 }

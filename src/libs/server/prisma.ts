@@ -7,8 +7,8 @@ interface CustomNodeJsGlobal {
 
 declare const global: CustomNodeJsGlobal;
 
-const prisma = global.prisma || new PrismaClient();
+const prismaClient = global.prisma || new PrismaClient();
 
-if (getEnv('NODE_ENV') === 'development') global.prisma = prisma;
+if (getEnv('NODE_ENV') === 'development') global.prisma = prismaClient;
 
-export default prisma;
+export default prismaClient;
