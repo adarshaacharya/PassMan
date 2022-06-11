@@ -1,3 +1,5 @@
+import { Creds } from './types';
+
 export const credentials = [
   {
     id: '1',
@@ -36,14 +38,6 @@ export const credentials = [
     createdAt: '2022-06-03 17:24:20.192',
   },
 ];
-
-export type Creds = {
-  id: string;
-  website: string;
-  email?: string;
-  username?: string;
-  createdAt: string;
-};
 
 export const getCredentials = (): Promise<Array<Creds>> => {
   return new Promise((resolve) => {

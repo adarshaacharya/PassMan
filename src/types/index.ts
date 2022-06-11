@@ -13,3 +13,11 @@ export type HTTPMethod =
   | 'OPTIONS'
   | 'TRACE'
   | 'PATCH';
+
+export type Creds = {
+  id: string;
+  website: string;
+  email?: string;
+  username?: string;
+  createdAt: string;
+};

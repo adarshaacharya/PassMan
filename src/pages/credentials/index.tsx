@@ -1,9 +1,9 @@
 import AuthLayout from '@/components/AuthLayout';
 import CreateCredential from '@/components/CreateCredential';
-import CredentialCover from '@/components/CredentialCover';
+import CredentialCard from '@/components/CredentialCard';
 import { Vault } from '@/enums';
 import prismaClient from '@/libs/server/prisma';
-import { Creds } from '@/mock';
+import { Creds } from '@/types';
 import {
   Box,
   Button,
@@ -12,6 +12,7 @@ import {
   Grid,
   GridItem,
   Heading,
+  Stack,
   Text,
 } from '@chakra-ui/react';
 import { VaultCategory } from '@prisma/client';
@@ -41,8 +42,38 @@ const CredetialsPage = ({ credentials }: { credentials: Creds[] }) => {
             onClose={() => setcredsModal(false)}
           />
         )}
-        <Flex minWidth="max-content" justify="flex-end">
-          <Box>
+
+        {credentials.length && (
+          <Flex minWidth="max-content" justify="flex-end">
+            <Box>
+              <Button
+                leftIcon={<MdAdd />}
+                colorScheme="primary"
+                variant="solid"
+                size="lg"
+                onClick={handleCredentialCreate}
+              >
+                Add Credential
+              </Button>
+            </Box>
+          </Flex>
+        )}
+
+        {!credentials.length && (
+          <Stack
+            justify="center"
+            align="center"
+            direction="column"
+            py="10"
+            px="10"
+            color="gray.600"
+            h="60vh"
+            spacing="12"
+          >
+            <Text textAlign="center">
+              No credentials found. Please add one by clcking on Add Credential
+              button.
+            </Text>
             <Button
               leftIcon={<MdAdd />}
               colorScheme="primary"
@@ -52,8 +83,9 @@ const CredetialsPage = ({ credentials }: { credentials: Creds[] }) => {
             >
               Add Credential
             </Button>
-          </Box>
-        </Flex>
+          </Stack>
+        )}
+
         <Grid
           templateColumns={{
             base: 'repeat(1, 1fr)',
@@ -63,7 +95,7 @@ const CredetialsPage = ({ credentials }: { credentials: Creds[] }) => {
           gap={{ base: 8, md: 16 }}
           py="14"
         >
-          {credentials.map((credential: Creds) => {
+          {credentials.map((credential) => {
             return (
               <GridItem
                 key={credential.id}
@@ -75,21 +107,7 @@ const CredetialsPage = ({ credentials }: { credentials: Creds[] }) => {
                   cursor: 'pointer',
                 }}
               >
-                <Box
-                  borderWidth="1px"
-                  borderRadius="lg"
-                  overflow="hidden"
-                  bg="auto"
-                  boxShadow="lg"
-                  p={10}
-                  textAlign="center"
-                >
-                  <CredentialCover url={credential.website} />
-                  <Box py="10">
-                    <Text>{credential.website}</Text>
-                    <Text>{credential.email ?? credential.username}</Text>
-                  </Box>
-                </Box>
+                <CredentialCard credential={credential} />
               </GridItem>
             );
           })}
