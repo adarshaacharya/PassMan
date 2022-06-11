@@ -36,6 +36,9 @@ async function handler(
           category: VaultCategory.PERSONAL,
           vault: { id: vault?.id },
         },
+        orderBy: {
+          createdAt: 'desc',
+        },
       });
 
       res.status(200).json({ credentials, ok: true });

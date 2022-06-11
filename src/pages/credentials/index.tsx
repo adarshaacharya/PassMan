@@ -102,10 +102,6 @@ const CredetialsPage = ({ credentials }: { credentials: Creds[] }) => {
                 bg="whiteAlpha.900"
                 borderColor="gray.200"
                 rounded="2xl"
-                _hover={{
-                  bg: 'gray.200',
-                  cursor: 'pointer',
-                }}
               >
                 <CredentialCard credential={credential} />
               </GridItem>
@@ -132,6 +128,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     where: {
       category: VaultCategory.PERSONAL,
       vault: { id: vault?.id },
+    },
+    orderBy: {
+      createdAt: 'desc',
     },
   });
 
