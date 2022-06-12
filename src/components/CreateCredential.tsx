@@ -1,8 +1,9 @@
 import { Vault } from '@/enums';
 import useToast from '@/hooks/useToast';
-import { getErrorMessage } from '@/libs/client/errorHandler';
+import { getErrorMessage, HttpError } from '@/libs/client/errorHandler';
 import { createCreditentialSchema } from '@/schemas';
 import { createCreditential } from '@/services';
+import { endpoints } from '@/services/endpoints';
 import { CreateCredentialRequest } from '@/services/types';
 import {
   Button,
@@ -22,6 +23,7 @@ import {
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
+import { useMutation, useQueryClient } from 'react-query';
 
 type Props = {
   onClose: VoidFunction;
@@ -33,44 +35,51 @@ type CreateCredentialSchema = Omit<CreateCredentialRequest, 'category'>;
 
 function CreateCredential({ isOpen, onClose, vaultCategory }: Props) {
   const { showToast } = useToast();
-
+  const queryClient = useQueryClient();
   const initialRef = React.useRef(null);
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<CreateCredentialSchema>({
     mode: 'onTouched',
     reValidateMode: 'onChange',
     resolver: yupResolver(createCreditentialSchema),
   });
 
-  const onSubmit = (values: CreateCredentialSchema) => {
-    createCreditential({
-      category: vaultCategory,
-      ...values,
-    })
-      .then(() => {
+  const { isLoading: isCredentialSubmitting, mutate: mutateCredential } =
+    useMutation(createCreditential, {
+      onSuccess: () => {
+        queryClient.invalidateQueries(endpoints.credentials);
+
         onClose();
         showToast({
           title: 'Credential created',
-          description: 'Credential successfully added in vault',
+          description: 'Your credential has been created',
           status: 'success',
         });
-      })
-      .catch((err) => {
-        const errorMessage = getErrorMessage(err);
+      },
+      onError: (error: HttpError) => {
+        const errorMessage = getErrorMessage(error);
         showToast({
+          title: 'Error',
           description: errorMessage,
           status: 'error',
         });
-      });
+      },
+    });
+
+  const onSubmit = (values: CreateCredentialSchema) => {
+    mutateCredential({
+      ...values,
+      category: vaultCategory,
+    });
   };
 
   return (
     <Modal
       initialFocusRef={initialRef}
-      isOpen={isOpen || isSubmitting}
+      isOpen={isOpen || isCredentialSubmitting}
       onClose={onClose}
       closeOnOverlayClick={false}
       size="xl"
@@ -158,7 +167,7 @@ function CreateCredential({ isOpen, onClose, vaultCategory }: Props) {
               mr={3}
               size="lg"
               type="submit"
-              isLoading={isSubmitting}
+              isLoading={isCredentialSubmitting}
             >
               Enter Credential
             </Button>

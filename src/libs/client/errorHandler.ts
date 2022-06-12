@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 
-type Error = AxiosError & {
+export type HttpError = AxiosError & {
   response?: {
     data?: {
       errorMessage?: string;
@@ -14,7 +14,7 @@ type Error = AxiosError & {
  * @param error : Error instance
  * @returns extracted description of error from AxiosError
  */
-export const getErrorMessage = (error: Error) => {
+export const getErrorMessage = (error: HttpError) => {
   let message = 'Something went wrong';
   message = error.response?.data?.errorMessage ?? message;
   return message;

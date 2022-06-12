@@ -23,10 +23,11 @@ import { useQuery } from 'react-query';
 const CredetialsPage = () => {
   const [credsModal, setCredsModal] = React.useState(false);
 
-  const { data: credentials, isLoading } = useQuery(
-    endpoints.credentials,
-    getCredentials,
-  );
+  const {
+    data: credentials,
+    isLoading,
+    isError,
+  } = useQuery(endpoints.credentials, getCredentials);
 
   const handleCredentialCreate = React.useCallback(() => {
     setCredsModal(true);
@@ -34,20 +35,11 @@ const CredetialsPage = () => {
 
   //@todo: consult for better approach to show loading state
   if (!credentials || isLoading) {
-    return (
-      <AuthLayout>
-        <Container maxW="container.xl">
-          <Heading size="3xl" color="gray.600" textAlign="center" py="10">
-            CREDENTIALS
-          </Heading>
-          <Stack spacing={4}>
-            <Skeleton />
-            <Skeleton />
-            <Skeleton />
-          </Stack>
-        </Container>
-      </AuthLayout>
-    );
+    return <Skeleton />;
+  }
+
+  if (isError) {
+    return <Text>Error loading credentials</Text>;
   }
 
   return (
@@ -126,9 +118,7 @@ const CredetialsPage = () => {
                 rounded="2xl"
                 mb="14"
               >
-                <Skeleton isLoaded={!isLoading}>
-                  <CredentialCard credential={credential} />
-                </Skeleton>
+                <CredentialCard credential={credential} />
               </GridItem>
             );
           })}

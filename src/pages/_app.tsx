@@ -1,15 +1,15 @@
-import * as React from 'react';
-import { AppProps } from 'next/app';
-import NProgress from 'nprogress';
-import { Router } from 'next/router';
-import { SessionProvider } from 'next-auth/react';
-import { ChakraProvider } from '@chakra-ui/react';
 import customTheme from '@/theme';
+import { ChakraProvider } from '@chakra-ui/react';
+import { SessionProvider } from 'next-auth/react';
+import { AppProps } from 'next/app';
+import { Router } from 'next/router';
+import NProgress from 'nprogress';
+import * as React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import 'src/styles/global.css';
 import 'src/styles/nprogress.css';
-
-import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 
 export default function App(props: AppProps) {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -33,11 +33,10 @@ export default function App(props: AppProps) {
   return (
     <SessionProvider session={pageProps.session}>
       <QueryClientProvider client={queryClient}>
-        <Hydrate state={pageProps.dehydratedState}>
-          <ChakraProvider theme={customTheme}>
-            <Component {...pageProps} />
-          </ChakraProvider>
-        </Hydrate>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <ChakraProvider theme={customTheme}>
+          <Component {...pageProps} />
+        </ChakraProvider>
       </QueryClientProvider>
     </SessionProvider>
   );
