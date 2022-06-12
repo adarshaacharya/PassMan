@@ -36,7 +36,7 @@ export const createCreditential = async ({
   username,
   website,
 }: CreateCredentialRequest) => {
-  return HttpClient.post<CreateVaultResponse>(endpoints.credentials.create, {
+  return HttpClient.post<CreateVaultResponse>(endpoints.credentials, {
     email,
     username,
     website,
@@ -48,9 +48,6 @@ export const createCreditential = async ({
 
 export const deleteCredential = async (cid: string) => {
   return HttpClient.delete<CreateVaultResponse>(
-    endpoints.credentials.credential,
-    {
-      cid,
-    },
+    `${endpoints.credentials}/${cid}`,
   );
 };

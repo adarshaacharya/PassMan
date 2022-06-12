@@ -34,9 +34,15 @@ const CredentialDetail: NextPage<{ credential: Props }> = ({ credential }) => {
   const handleCredentialDelete = React.useCallback(() => {
     console.log({ cid });
     deleteCredential(cid)
-      .then(() => router.push('/credentials'))
-      .catch((err) => {
-        console.error(err);
+      .then(() => {
+        router.push('/credentials');
+        showToast({
+          title: 'Credential deleted',
+          description: 'Your credential has been deleted',
+          status: 'success',
+        });
+      })
+      .catch(() => {
         showToast({
           title: 'Error',
           description: 'Failed to delete credential',
