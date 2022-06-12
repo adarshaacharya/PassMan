@@ -30,6 +30,7 @@ const CredentialDetail: NextPage<{ credential: Props }> = ({ credential }) => {
   const router = useRouter();
   const cid = router.query.cid as string;
   const { showToast } = useToast();
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const handleCredentialDelete = React.useCallback(() => {
     deleteCredential(cid)
@@ -63,6 +64,8 @@ const CredentialDetail: NextPage<{ credential: Props }> = ({ credential }) => {
             shadow="lg"
             px="20"
             py="14"
+            maxW="450px"
+            wordBreak="break-all"
           >
             <Center py="9">
               <CredentialCover url={website} />
@@ -71,7 +74,23 @@ const CredentialDetail: NextPage<{ credential: Props }> = ({ credential }) => {
             <Box py="15">
               <Text>Email : {email}</Text>
               <Text mt="5">Username : {username}</Text>
-              <Text mt="5">Password : {password}</Text>
+              <Text mt="5">
+                Password : &nbsp;
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  readOnly
+                  style={{
+                    border: 'none',
+                    background: 'transparent',
+                    outline: 'none',
+                    width: password.length * 10,
+                  }}
+                />
+                <Button ml="5" onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? 'Hide' : 'Show'}
+                </Button>
+              </Text>
               <Text mt="5">Created At : {createdAt}</Text>
             </Box>
 
