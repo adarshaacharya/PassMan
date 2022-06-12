@@ -6,5 +6,7 @@ export const endpoints = {
   },
   credentials: {
     create: '/credentials',
+    credential: '/credentials/:cid',
+    delete: '/credentials/:cid',
   },
 };

@@ -22,8 +22,8 @@ class HttpClient {
     return http.put<T>(url, data).then((res) => res.data);
   }
 
-  static delete<T>(url: string, data?: any): Promise<T> {
-    return http.delete<T>(url, data).then((res) => res.data);
+  static delete<T>(url: string, params: RequestData): Promise<T> {
+    return http.delete<T>(url, { ...params }).then((res) => res.data);
   }
 }
 

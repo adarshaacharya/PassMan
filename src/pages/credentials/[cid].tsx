@@ -1,6 +1,8 @@
 import AuthLayout from '@/components/AuthLayout';
 import CredentialCover from '@/components/CredentialCover';
+import useToast from '@/hooks/useToast';
 import prismaClient from '@/libs/server/prisma';
+import { deleteCredential } from '@/services';
 import { Creds } from '@/types';
 import {
   Box,
@@ -15,6 +17,8 @@ import {
 import { VaultCategory } from '@prisma/client';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { getSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import React from 'react';
 import { MdDelete, MdEdit } from 'react-icons/md';
 
 type Props = {
@@ -23,7 +27,23 @@ type Props = {
 
 const CredentialDetail: NextPage<{ credential: Props }> = ({ credential }) => {
   const { createdAt, website, email, username, password } = credential;
+  const router = useRouter();
+  const cid = router.query.cid as string;
+  const { showToast } = useToast();
 
+  const handleCredentialDelete = React.useCallback(() => {
+    console.log({ cid });
+    deleteCredential(cid)
+      .then(() => router.push('/credentials'))
+      .catch((err) => {
+        console.error(err);
+        showToast({
+          title: 'Error',
+          description: 'Failed to delete credential',
+          status: 'error',
+        });
+      });
+  }, [cid, router, showToast]);
   return (
     <AuthLayout>
       <Container maxW="container.md">
@@ -69,6 +89,7 @@ const CredentialDetail: NextPage<{ credential: Props }> = ({ credential }) => {
                     bg: 'primary.600',
                   }}
                   leftIcon={<MdDelete />}
+                  onClick={handleCredentialDelete}
                 >
                   Delete
                 </Button>

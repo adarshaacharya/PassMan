@@ -45,3 +45,12 @@ export const createCreditential = async ({
     category,
   });
 };
+
+export const deleteCredential = async (cid: string) => {
+  return HttpClient.delete<CreateVaultResponse>(
+    endpoints.credentials.credential,
+    {
+      cid,
+    },
+  );
+};

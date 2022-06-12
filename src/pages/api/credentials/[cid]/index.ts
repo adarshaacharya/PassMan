@@ -50,10 +50,29 @@ async function handler(
       res.status(400).json({ errorMessage: error.message, ok: false });
     }
   }
+
+  if (req.method === 'DELETE') {
+    try {
+      const {
+        query: { cid },
+      } = req;
+
+      const credential = await prisma.credential.delete({
+        where: {
+          id: cid.toString(),
+        },
+      });
+
+      res.status(200).json({ credential, ok: true });
+    } catch (error) {
+      console.error(error);
+      res.status(400).json({ errorMessage: error.message, ok: false });
+    }
+  }
 }
 
 export default withHandler({
-  methods: ['GET'],
+  methods: ['GET', 'DELETE'],
   handler,
   isPrivateRoute: true,
 });
