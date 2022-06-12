@@ -1,10 +1,12 @@
-import { Avatar, Button, Stack } from '@chakra-ui/react';
+import { Avatar, Button, HStack, Stack } from '@chakra-ui/react';
 import { signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
 import * as React from 'react';
-import { MdOutlineLogout } from 'react-icons/md';
+import { MdArrowBack, MdOutlineLogout } from 'react-icons/md';
 
 function AuthLayout({ children }: { children: React.ReactNode }) {
   const { data } = useSession();
+  const router = useRouter();
   const handleSignOut = () => {
     signOut();
   };
@@ -23,23 +25,37 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
         pt="4"
         px="8"
       >
-        <Avatar name={name} size="xl" src={avatar} />
+        <Avatar
+          name={name}
+          size="xl"
+          src={avatar}
+          onClick={() => router.push('/vaults')}
+        />
 
-        <Button
-          size="lg"
-          p={8}
-          rounded="full"
-          type="button"
-          bg="gray.800"
-          color="whiteAlpha.900"
-          _hover={{
-            bg: 'blackAlpha.800',
-          }}
-          rightIcon={<MdOutlineLogout />}
-          onClick={handleSignOut}
-        >
-          Sign Out
-        </Button>
+        <HStack spacing={8}>
+          <Button
+            leftIcon={<MdArrowBack />}
+            size="lg"
+            rounded="full"
+            onClick={() => router.push('/vaults')}
+          >
+            Go to vaults
+          </Button>
+          <Button
+            size="lg"
+            rounded="full"
+            type="button"
+            bg="gray.800"
+            color="whiteAlpha.900"
+            _hover={{
+              bg: 'blackAlpha.800',
+            }}
+            rightIcon={<MdOutlineLogout />}
+            onClick={handleSignOut}
+          >
+            Sign Out
+          </Button>
+        </HStack>
       </Stack>
       {children}
     </React.Fragment>

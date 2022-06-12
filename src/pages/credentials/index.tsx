@@ -85,7 +85,7 @@ const CredetialsPage = () => {
             spacing="12"
           >
             <Text textAlign="center">
-              No credentials found. Please add one by clcking on Add Credential
+              No credentials found. Please add one by clicking on Add Credential
               button.
             </Text>
             <Button
