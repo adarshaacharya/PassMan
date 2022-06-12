@@ -16,6 +16,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { VaultCategory } from '@prisma/client';
+import { format } from 'date-fns';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
@@ -87,11 +88,17 @@ const CredentialDetail: NextPage<{ credential: Props }> = ({ credential }) => {
                     width: password.length * 10,
                   }}
                 />
-                <Button ml="5" onClick={() => setShowPassword(!showPassword)}>
+                <Button
+                  size="sm"
+                  ml="5"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
                   {showPassword ? 'Hide' : 'Show'}
                 </Button>
               </Text>
-              <Text mt="5">Created At : {createdAt}</Text>
+              <Text mt="5">
+                Created at : {format(new Date(createdAt), 'MMM dd, yyyy')}
+              </Text>
             </Box>
 
             <Center>
