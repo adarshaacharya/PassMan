@@ -2,8 +2,8 @@ import AuthLayout from '@/components/AuthLayout';
 import CreateCredential from '@/components/CreateCredential';
 import CredentialCard from '@/components/CredentialCard';
 import { Vault } from '@/enums';
-import prismaClient from '@/libs/server/prisma';
-import { Creds } from '@/types';
+import { getCredentials } from '@/services';
+import { endpoints } from '@/services/endpoints';
 import {
   Box,
   Button,
@@ -12,21 +12,43 @@ import {
   Grid,
   GridItem,
   Heading,
+  Skeleton,
   Stack,
   Text,
 } from '@chakra-ui/react';
-import { VaultCategory } from '@prisma/client';
-import { GetServerSidePropsContext } from 'next';
-import { getSession } from 'next-auth/react';
 import React from 'react';
 import { MdAdd } from 'react-icons/md';
+import { useQuery } from 'react-query';
 
-const CredetialsPage = ({ credentials }: { credentials: Creds[] }) => {
+const CredetialsPage = () => {
   const [credsModal, setCredsModal] = React.useState(false);
+
+  const { data: credentials, isLoading } = useQuery(
+    endpoints.credentials,
+    getCredentials,
+  );
 
   const handleCredentialCreate = React.useCallback(() => {
     setCredsModal(true);
   }, []);
+
+  //@todo: consult for better approach to show loading state
+  if (!credentials || isLoading) {
+    return (
+      <AuthLayout>
+        <Container maxW="container.xl">
+          <Heading size="3xl" color="gray.600" textAlign="center" py="10">
+            CREDENTIALS
+          </Heading>
+          <Stack spacing={4}>
+            <Skeleton />
+            <Skeleton />
+            <Skeleton />
+          </Stack>
+        </Container>
+      </AuthLayout>
+    );
+  }
 
   return (
     <AuthLayout>
@@ -104,7 +126,9 @@ const CredetialsPage = ({ credentials }: { credentials: Creds[] }) => {
                 rounded="2xl"
                 mb="14"
               >
-                <CredentialCard credential={credential} />
+                <Skeleton isLoaded={!isLoading}>
+                  <CredentialCard credential={credential} />
+                </Skeleton>
               </GridItem>
             );
           })}
@@ -114,31 +138,4 @@ const CredetialsPage = ({ credentials }: { credentials: Creds[] }) => {
   );
 };
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await getSession(context);
-  const userId = session?.user?.id;
-
-  const vault = await prismaClient.vault.findFirst({
-    where: {
-      category: VaultCategory.PERSONAL,
-      owner: { id: userId },
-    },
-  });
-
-  const credentials = await prismaClient.credential.findMany({
-    where: {
-      category: VaultCategory.PERSONAL,
-      vault: { id: vault?.id },
-    },
-    orderBy: {
-      createdAt: 'desc',
-    },
-  });
-
-  return {
-    props: {
-      credentials: JSON.parse(JSON.stringify(credentials)),
-    },
-  };
-}
 export default CredetialsPage;

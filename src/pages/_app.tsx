@@ -8,7 +8,6 @@ import customTheme from '@/theme';
 
 import 'src/styles/global.css';
 import 'src/styles/nprogress.css';
-import 'src/styles/socialicons.css';
 
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 

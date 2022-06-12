@@ -1,5 +1,6 @@
 import { Vault } from '@/enums';
 import HttpClient from '@/libs/client/HttpClient';
+import { Creds } from '@/types';
 import { endpoints } from './endpoints';
 import {
   CreateCredentialRequest,
@@ -28,6 +29,12 @@ export const enterVault = async ({ key, category }: CreatVaultRequest) => {
   });
 };
 
+export const getCredentials = () => {
+  return HttpClient.get<{ credentials: Creds[] }>(endpoints.credentials).then(
+    (res) => res.credentials,
+  );
+};
+
 export const createCreditential = async ({
   category,
   description,
@@ -36,7 +43,7 @@ export const createCreditential = async ({
   username,
   website,
 }: CreateCredentialRequest) => {
-  return HttpClient.post<CreateVaultResponse>(endpoints.credentials, {
+  return HttpClient.post<Creds>(endpoints.credentials, {
     email,
     username,
     website,
@@ -47,7 +54,5 @@ export const createCreditential = async ({
 };
 
 export const deleteCredential = async (cid: string) => {
-  return HttpClient.delete<CreateVaultResponse>(
-    `${endpoints.credentials}/${cid}`,
-  );
+  return HttpClient.delete(`${endpoints.credentials}/${cid}`);
 };
