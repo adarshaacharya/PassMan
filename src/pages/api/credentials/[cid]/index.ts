@@ -42,7 +42,7 @@ async function handler(
       });
 
       if (!credential) {
-        return res.status(400).json({
+        return res.status(404).json({
           errorMessage: 'Credential not found',
           ok: false,
         });
@@ -76,6 +76,13 @@ async function handler(
           id: cid.toString(),
         },
       });
+
+      if (!credential) {
+        return res.status(404).json({
+          errorMessage: 'Credential not found',
+          ok: false,
+        });
+      }
 
       res.status(200).json({ credential, ok: true });
     } catch (error) {

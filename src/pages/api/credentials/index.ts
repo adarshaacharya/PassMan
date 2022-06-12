@@ -25,7 +25,7 @@ async function handler(
       });
 
       if (!vault) {
-        return res.status(400).json({
+        return res.status(404).json({
           ok: false,
           errorMessage: 'Vault not found',
         });
@@ -64,7 +64,7 @@ async function handler(
       });
 
       if (!vault) {
-        return res.status(400).json({
+        return res.status(404).json({
           errorMessage: `${Vault.PERSONAL} Vault doesn't exists`,
           ok: false,
         });
