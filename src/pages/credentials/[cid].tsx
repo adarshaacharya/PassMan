@@ -1,6 +1,7 @@
 import AuthLayout from '@/components/AuthLayout';
 import CredentialCover from '@/components/CredentialCover';
 import useToast from '@/hooks/useToast';
+import Aes256 from '@/libs/server/Aes256';
 import prismaClient from '@/libs/server/prisma';
 import { deleteCredential } from '@/services';
 import { Creds } from '@/types';
@@ -120,10 +121,17 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     },
   });
 
-  const credential = await prismaClient.credential.findFirst({
+  let credential = await prismaClient.credential.findFirst({
     where: {
       id: context?.params?.cid?.toString(),
       vault: { id: vault?.id },
+    },
+    include: {
+      vault: {
+        select: {
+          key: true,
+        },
+      },
     },
   });
 
@@ -133,6 +141,17 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       notFound: true,
     };
   }
+
+  const decryptedPassword = Aes256.getInstance().decryptSync({
+    hashedVaultKey: credential.vault.key,
+    initializationVector: credential.initializationVector,
+    encryptedPassword: credential.password,
+  });
+
+  credential = {
+    ...credential,
+    password: decryptedPassword,
+  };
 
   return {
     props: {

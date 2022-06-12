@@ -2,21 +2,35 @@ import Aes256 from '@/libs/server/Aes256';
 import prisma from '@/libs/server/prisma';
 import withHandler from '@/libs/server/withHandler';
 import { ResponseType } from '@/types';
+import { VaultCategory } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getSession } from 'next-auth/react';
 
 async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>,
 ) {
+  //@note: currently we are getting credential from getServerSideProps() on page level
   if (req.method === 'GET') {
+    const session = await getSession({ req });
+    const userId = session?.user?.id;
+
     try {
       const {
         query: { cid },
       } = req;
 
-      let credential = await prisma.credential.findUnique({
+      const vault = await prisma.vault.findFirst({
         where: {
-          id: cid.toString(),
+          category: VaultCategory.PERSONAL,
+          owner: { id: userId },
+        },
+      });
+
+      let credential = await prisma.credential.findFirst({
+        where: {
+          id: cid?.toString(),
+          vault: { id: vault?.id },
         },
         include: {
           vault: {
