@@ -26,13 +26,11 @@ type Props = {
 } & Creds;
 
 const CredentialDetail: NextPage<{ credential: Props }> = ({ credential }) => {
-  const { createdAt, website, email, username, password } = credential;
   const router = useRouter();
   const cid = router.query.cid as string;
   const { showToast } = useToast();
 
   const handleCredentialDelete = React.useCallback(() => {
-    console.log({ cid });
     deleteCredential(cid)
       .then(() => {
         router.push('/credentials');
@@ -50,6 +48,9 @@ const CredentialDetail: NextPage<{ credential: Props }> = ({ credential }) => {
         });
       });
   }, [cid, router, showToast]);
+
+  const { createdAt, website, email, username, password } = credential;
+
   return (
     <AuthLayout>
       <Container maxW="container.md">
@@ -125,6 +126,13 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
       vault: { id: vault?.id },
     },
   });
+
+  if (!credential) {
+    context.res.statusCode = 404;
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {

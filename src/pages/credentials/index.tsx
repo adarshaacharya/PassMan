@@ -43,7 +43,7 @@ const CredetialsPage = ({ credentials }: { credentials: Creds[] }) => {
           />
         )}
 
-        {credentials.length && (
+        {credentials.length > 0 && (
           <Flex minWidth="max-content" justify="flex-end">
             <Box>
               <Button
@@ -59,7 +59,7 @@ const CredetialsPage = ({ credentials }: { credentials: Creds[] }) => {
           </Flex>
         )}
 
-        {!credentials.length && (
+        {credentials.length === 0 && (
           <Stack
             justify="center"
             align="center"
