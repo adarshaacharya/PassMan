@@ -12,7 +12,7 @@
 <div align="center">
   <img src="https://img.shields.io/static/v1?label=PRs&message=welcome&style=flat-square&color=5e17eb&labelColor=000000" alt="PRs welcome!" />
 
-  <img alt="License" src="https://img.shields.io/github/license/adarsha_ach/PassMan?style=flat-square&color=5e17eb&labelColor=000000">
+  <img alt="License" src="https://img.shields.io/github/license/adarshaacharya/PassMan?style=flat-square&color=5e17eb&labelColor=000000">
 
   <a href="https://twitter.com/intent/follow?screen_name=adarsha_ach">
     <img src="https://img.shields.io/twitter/follow/adarsha_ach?style=flat-square&color=5e17eb&labelColor=000000" alt="Follow @adarsha_ach" />
