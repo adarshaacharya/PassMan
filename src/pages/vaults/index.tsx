@@ -26,12 +26,15 @@ function Dashboard() {
   const [vaultCategory, setVaultCategory] = React.useState<Vault>(
     Vault.PERSONAL,
   );
+  const [isEnteringVaultInformation, setIsEnteringVaultInformation] =
+    React.useState(false);
 
   const handleAccountCardClick = React.useCallback((vault: Vault) => {
     setSelectedVault(vault);
   }, []);
 
   const handleVaultCreate = React.useCallback(() => {
+    setIsEnteringVaultInformation(true);
     if (selectedVault === Vault.BUSINESS) {
       showToast({
         status: 'warning',
@@ -40,14 +43,24 @@ function Dashboard() {
       return;
     }
 
-    enterVaultInformation(vaultCategory).then((vault) => {
-      setVaultCategory(vault.category);
-      if (vault.isVaultCreated) {
-        setVaultModal(VaultModal.ENTER);
-        return;
-      }
-      setVaultModal(VaultModal.CREATE);
-    });
+    enterVaultInformation(vaultCategory)
+      .then((vault) => {
+        setVaultCategory(vault.category);
+        if (vault.isVaultCreated) {
+          setVaultModal(VaultModal.ENTER);
+          return;
+        }
+        setVaultModal(VaultModal.CREATE);
+      })
+      .catch((error) => {
+        showToast({
+          status: 'error',
+          description: error.message,
+        });
+      })
+      .finally(() => {
+        setIsEnteringVaultInformation(false);
+      });
   }, [selectedVault, showToast, vaultCategory]);
 
   const enterMode = React.useMemo(() => {
@@ -104,6 +117,7 @@ function Dashboard() {
               bg: 'primary.500',
             }}
             rightIcon={<MdNavigateNext />}
+            isLoading={isEnteringVaultInformation}
             onClick={handleVaultCreate}
           >
             Next
