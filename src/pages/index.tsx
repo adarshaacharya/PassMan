@@ -9,7 +9,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import Image from 'next/image';
-import landing from 'public/landing.webp';
+import landing from 'public/landing.png';
 import React from 'react';
 import { AiFillGithub } from 'react-icons/ai';
 import { MdOutlineEmail } from 'react-icons/md';
