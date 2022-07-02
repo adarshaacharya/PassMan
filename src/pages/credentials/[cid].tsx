@@ -19,6 +19,7 @@ import { VaultCategory } from '@prisma/client';
 import { format } from 'date-fns';
 import { GetServerSidePropsContext, NextPage } from 'next';
 import { getSession } from 'next-auth/react';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { MdDelete, MdEdit } from 'react-icons/md';
@@ -56,6 +57,9 @@ const CredentialDetail: NextPage<{ credential: Props }> = ({ credential }) => {
 
   return (
     <AuthLayout>
+      <Head>
+        <title>Credential | Passman</title>
+      </Head>
       <Container maxW="container.md">
         <Flex direction="column" align="center" justify="center" h="70vh">
           <Box

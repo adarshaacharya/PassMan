@@ -8,6 +8,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
+import Head from 'next/head';
 import Image from 'next/image';
 import landing from 'public/landing.png';
 import React from 'react';
@@ -24,6 +25,9 @@ const Home = () => {
 
   return (
     <Stack minH="100vh" direction={{ base: 'column', md: 'row' }}>
+      <Head>
+        <title>Home | Passman</title>
+      </Head>
       <Flex flex={1} p={8} align="center" justify="center">
         <Stack spacing={8} maxW="75%">
           <Box>

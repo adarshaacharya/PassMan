@@ -16,6 +16,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react';
+import Head from 'next/head';
 import React from 'react';
 import { MdAdd } from 'react-icons/md';
 import { useQuery } from 'react-query';
@@ -44,6 +45,9 @@ const CredetialsPage = () => {
 
   return (
     <AuthLayout>
+      <Head>
+        <title>Credentials | Passman</title>
+      </Head>
       <Container maxW="container.xl">
         <Heading size="3xl" color="gray.600" textAlign="center" py="10">
           CREDENTIALS

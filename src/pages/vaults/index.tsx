@@ -11,6 +11,7 @@ import { getSession } from 'next-auth/react';
 import * as React from 'react';
 import { MdNavigateNext } from 'react-icons/md';
 import useToast from '@/hooks/useToast';
+import Head from 'next/head';
 
 enum VaultModal {
   CREATE,
@@ -74,6 +75,9 @@ function Dashboard() {
   return (
     //  we don't recommend adding custom margins to the children of HStack, VStack or Stack. use Flex or use the shouldWrapChildren prop.
     <AuthLayout>
+      <Head>
+        <title>Vaults | Passman</title>
+      </Head>
       <CreateVault
         vaultCategory={vaultCategory}
         isOpen={createMode}
