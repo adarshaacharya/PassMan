@@ -14,9 +14,8 @@ async function handler(
   if (req.method === 'GET') {
     try {
       const { category } = req.query;
-      const session = await getSession();
+      const session = await getSession({ req });
       const userId = session?.user?.id;
-
       const vault = await prisma.vault.findFirst({
         where: {
           category: category as VaultCategory,
@@ -72,7 +71,7 @@ async function handler(
 
       const { encryptedPassword, initializationVector } =
         Aes256.getInstance().encryptSync(password, vault.key);
-      const credential = await prisma.credential.create({
+      await prisma.credential.create({
         data: {
           email,
           username,
@@ -88,7 +87,7 @@ async function handler(
           },
         },
       });
-      res.status(200).json({ credential, ok: true });
+      res.status(200).json({ ok: true });
     } catch (error) {
       console.error(error);
       res.status(400).json({ errorMessage: error.message, ok: false });
