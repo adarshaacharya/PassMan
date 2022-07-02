@@ -42,6 +42,11 @@
 - 🔑 Hashing : AES256, Scrypt
 - 📦 Containerization : Docker
 
+### Requirements
+
+- Node.js >= 12.22.0
+- Yarn 1 (Classic)
+
 ### Local Development
 
 To start the project locally, run:
@@ -88,11 +93,6 @@ docker-compose up -d
 Now, you have postgres port running successfully on PORT `5433`. Check using `docker ps -a`.
 
 Check [docker-compose.yml](./docker-compose.yml) for full configuation.
-
-### Requirements
-
-- Node.js >= 12.22.0
-- Yarn 1 (Classic)
 
 ### Scripts
 
