@@ -43,8 +43,11 @@ function EnterVault({ onClose, isOpen, vaultCategory }: Props) {
     reValidateMode: 'onChange',
     resolver: yupResolver(enterVaultSchema),
   });
+  const [isEnteringVault, setIsEnteringVault] = React.useState(false);
 
   const onSubmit = (values: EnterVaultSchema) => {
+    if (!values) return;
+    setIsEnteringVault(true);
     enterVault({
       key: values.key,
       category: vaultCategory,
@@ -56,9 +59,11 @@ function EnterVault({ onClose, isOpen, vaultCategory }: Props) {
       .catch((err) => {
         const errorMessage = getErrorMessage(err);
         setError('key', { type: 'manual', message: errorMessage });
+      })
+      .finally(() => {
+        setIsEnteringVault(false);
       });
   };
-
   return (
     <Modal
       initialFocusRef={initialRef}
@@ -97,7 +102,7 @@ function EnterVault({ onClose, isOpen, vaultCategory }: Props) {
               mr={3}
               size="lg"
               type="submit"
-              isLoading={isSubmitting}
+              isLoading={isSubmitting || isEnteringVault}
             >
               Enter Vault
             </Button>
