@@ -2,6 +2,7 @@ import prisma from '@/libs/server/prisma';
 import withHandler from '@/libs/server/withHandler';
 import { ResponseType } from '@/types';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { getSession } from 'next-auth/react';
 
 async function handler(
   req: NextApiRequest,
@@ -9,11 +10,14 @@ async function handler(
 ) {
   if (req.method === 'POST') {
     try {
-      console.log({ req });
       const { category } = req.body;
+      const session = await getSession({ req });
+      const userId = session?.user?.id;
+
       const vault = await prisma.vault.findFirst({
         where: {
           category,
+          owner: { id: userId },
         },
       });
 
