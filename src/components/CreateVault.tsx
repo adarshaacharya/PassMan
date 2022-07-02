@@ -46,10 +46,12 @@ function CreateVault({ vaultCategory, isOpen, onClose }: Props) {
     reValidateMode: 'onChange',
     resolver: yupResolver(createVaultSchema),
   });
+  const [isCreatingVault, setIsCreatingVault] = React.useState(false);
 
   const onSubmit = (values: CreatVaultForm) => {
     if (!values) return;
     const { key } = values;
+    setIsCreatingVault(true);
     createVault({ key, category: vaultCategory })
       .then(() => {
         router.push('/credentials');
@@ -64,6 +66,9 @@ function CreateVault({ vaultCategory, isOpen, onClose }: Props) {
           description: errorMessage,
           status: 'error',
         });
+      })
+      .finally(() => {
+        setIsCreatingVault(false);
       });
   };
 
@@ -123,7 +128,7 @@ function CreateVault({ vaultCategory, isOpen, onClose }: Props) {
               mr={3}
               size="lg"
               type="submit"
-              isLoading={isSubmitting}
+              isLoading={isSubmitting || isCreatingVault}
             >
               Save
             </Button>

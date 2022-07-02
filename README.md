@@ -1,6 +1,8 @@
 <p align="center">
+<a href="https://passmanager.vercel.app/">
   <img src="https://raw.githubusercontent.com/adarshaacharya/PassMan/main/docs/passman.png" alt="Passman">
 </p>
+</a>
 
 <br />
 
@@ -10,34 +12,37 @@
 <br />
 
 <div align="center">
-  <img src="https://img.shields.io/static/v1?label=PRs&message=welcome&style=flat-square&color=5e17eb&labelColor=000000" alt="PRs welcome!" />
-
-  <img alt="License" src="https://img.shields.io/github/license/adarshaacharya/PassMan?style=flat-square&color=5e17eb&labelColor=000000">
+  <img alt="License" src="https://img.shields.io/github/license/adarshaacharya/PassMan?style=flat-square">
+<img src="https://therealsujitk-vercel-badge.vercel.app/?app=passman" />
 
   <a href="https://twitter.com/intent/follow?screen_name=adarsha_ach">
-    <img src="https://img.shields.io/twitter/follow/adarsha_ach?style=flat-square&color=5e17eb&labelColor=000000" alt="Follow @adarsha_ach" />
+    <img src="https://img.shields.io/twitter/follow/adarsha_ach?style=flat-square&color=5e17eb" alt="Follow @adarsha_ach" />
   </a>
+
 </div>
+
+ <p align="center">
+    <a href="https://passmanager.vercel.app">View Demo</a>
+    ·
+    <a href="https://github.com/adarshaacharya/PassMan/issues/new">Report Bug</a>
+    ·
+    <a href="https://github.com/adarshaacharya/PassMan/issues/new">Request Feature</a>
+  </p>
 
 <br />
 
-## Features
+## Tech Stack
 
 - ⚡️ Next.js 12
 - ⚛️ React 18
 - ⛑ TypeScript
-- 📏 ESLint — To find and fix problems in your code
-- 💖 Prettier — Code Formatter for consistent style
-- 🐶 Husky — For running scripts before committing
-- 📄 Commitizen — To define a standard way of committing rules
-- 🚓 Commitlint — To make sure your commit messages follow the convention
-- 🖌 Renovate — To keep your dependencies up to date
-- 🚫 lint-staged — Run ESLint and Prettier against staged Git files
-- 👷 PR Workflow — Run Type Check & Linters on Pull Requests
-- ⚙️ EditorConfig - Consistent coding styles across editors and IDEs
-- 🗂 Path Mapping — Import components or images using the `@` prefix
+- 📙 Database : PostgreSQL
+- 🚓 ORM : Prisma
+- 💄 Component Library : Chakra UI
+- 🔑 Hashing : AES256, Scrypt
+- 📦 Containerization : Docker
 
-### Development
+### Local Development
 
 To start the project locally, run:
 
@@ -47,17 +52,47 @@ yarn dev
 
 Open `http://localhost:3000` with your browser to see the result.
 
+### Env variables setup
+
+- create new file .env in root folder
+- open [.env.example](./.env.example)
+- copy the contents and paste it to the .env
+
+Fillup `.env` variables with valid keys for database.
+
+### Authentication
+
+You might have seen env variables for authentication in `.env` file.
+[NextAuth.js](https://next-auth.js.org/) has been used for authentication, and Github has been used as provider. [Please read this docs](https://next-auth.js.org/providers/github) setting up keys is fairly simple.
+
+### Database setup
+
+This project uses POSTGRESQL db so you need to have POSTGRES installed in you machine or you can use docker. Create database named `passman`.
+
+To configure your database to use the new schema (i.e. create tables and columns) use the prisma migrate command:
+
+```bash
+npx prisma migrate dev
+```
+
+### Docker Setup
+
+The database has support for Docker. So if you want to run the database in a container, you need to [install docker and docker compose](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04)
+
+Open terminal in root directory of this project and run docker-compose:
+
+```bash
+docker-compose up -d
+```
+
+Now, you have postgres port running successfully on PORT `5433`. Check using `docker ps -a`.
+
+Check [docker-compose.yml](./docker-compose.yml) for full configuation.
+
 ### Requirements
 
 - Node.js >= 12.22.0
 - Yarn 1 (Classic)
-
-### Directory Structure
-
-- [`.github`](.github) — GitHub configuration including the CI workflow.<br>
-- [`.husky`](.husky) — Husky configuration and hooks.<br>
-- [`public`](./public) — Static assets such as robots.txt, images, and favicon.<br>
-- [`src`](./src) — Application source code, including pages, components, styles.
 
 ### Scripts
 
@@ -69,21 +104,10 @@ Open `http://localhost:3000` with your browser to see the result.
 - `yarn format` — Runs Prettier for all files in the `src` directory.
 - `yarn commit` — Run commitizen. Alternative to `git commit`.
 
-### Path Mapping
-
-TypeScript are pre-configured with custom path mappings. To import components or files, use the `@` prefix.
-
-```tsx
-import { Button } from '@/components/Button';
-
-// To import images or other files from the public folder
-import avatar from '@/public/avatar.png';
-```
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for more information.
 
 <div align="center">
-  <sub>Created by <a href="https://twitter.com/adarsha_ach">Aadarsha Acharya</a> with the help of many <a href="https://github.com/adarshaacharya/PassMan/graphs/contributors">wonderful contributors</a>.</sub>
+  <sub>Created by <a href="https://twitter.com/adarsha_ach">Aadarsha Acharya</a> Deployed on <a href="https://www.vercel.com">Vercel</a>.</sub>
 </div>
