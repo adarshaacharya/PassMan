@@ -17,7 +17,8 @@ import { MdOutlineEmail } from 'react-icons/md';
 
 const Home = () => {
   const { signIn } = useAuth();
-  const handleSingIn = async () => {
+
+  const handleSignIn = async () => {
     await signIn('github', {
       callbackUrl: '/vaults',
     });
@@ -76,7 +77,7 @@ const Home = () => {
                 }}
                 color="white"
                 leftIcon={<AiFillGithub />}
-                onClick={handleSingIn}
+                onClick={handleSignIn}
               >
                 Sign in with GitHub
               </Button>
