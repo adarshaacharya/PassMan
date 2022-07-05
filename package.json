@@ -51,7 +51,7 @@
     "yup": "0.32.11"
   },
   "devDependencies": {
-    "@commitlint/cli": "16.2.4",
+    "@commitlint/cli": "16.3.0",
     "@commitlint/config-conventional": "16.2.4",
     "@types/node": "16.11.33",
     "@types/nprogress": "0.2.0",
