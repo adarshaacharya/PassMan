@@ -61,7 +61,7 @@ Open `http://localhost:3000` with your browser to see the result.
 
 - create new file .env in root folder
 - open [.env.example](./.env.example)
-- copy the contents and paste it to the .env
+- copy the content and paste it to the .env
 
 Fillup `.env` variables with valid keys for database.
 
