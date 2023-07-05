@@ -30,8 +30,8 @@
   },
   "dependencies": {
     "@chakra-ui/react": "2.1.2",
-    "@emotion/react": "11.9.0",
-    "@emotion/styled": "11.8.1",
+    "@emotion/react": "11.11.1",
+    "@emotion/styled": "11.11.0",
     "@hookform/resolvers": "2.8.10",
     "@next-auth/prisma-adapter": "1.0.3",
     "@prisma/client": "3.14.0",
