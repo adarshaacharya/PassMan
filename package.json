@@ -45,7 +45,7 @@
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-hook-form": "7.31.3",
-    "react-icons": "4.3.1",
+    "react-icons": "4.11.0",
     "react-query": "3.39.1",
     "react-social-icons": "5.13.0",
     "yup": "0.32.11"
